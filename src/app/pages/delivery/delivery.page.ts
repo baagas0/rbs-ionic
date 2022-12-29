@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { TestService } from 'src/app/services/test.service';
 
@@ -15,12 +16,14 @@ export class Delivery {
 
   data: any = [];
 
-  hasData: boolean = true;
+  dataLimit: any = 15;
+  currentPage: any = 0;
+  countData: any = 1;
 
   constructor(
     @Inject(LOCALE_ID) locale: string,
     private restService: RestService,
-    private location: Location,
+    private navCtrl: NavController
   ) {}
 
   async ngOnInit() {
@@ -30,16 +33,43 @@ export class Delivery {
 
     this.formData.controls['valDate'].setValue(new Date());
 
-    await this.getData();
+    await this.getData(true, '');
   }
 
-  getData() {
-      let uri = 'list/deliveries';
+  getData(isFirstLoad, event) {
+    if ((this.currentPage * this.dataLimit) >= this.countData) {
+      console.log('masuk sini');
+      console.log(`${this.currentPage * this.dataLimit} >= ${this.countData}`)
+      event?.target?.complete();
+      return;
+    }
 
-      this.restService.getting(uri, {}).then((res) => {
-        this.data = res.data;
-        console.log(this.data);
+    this.currentPage++;
+
+    let uri = 'list/deliveries';
+
+    this.restService
+      .getting(uri, {
+        order: 'created_at',
+        sort: 'desc',
+        limit: this.dataLimit,
+        offset: this.currentPage,
+      })
+      .then((res) => {
+        let data = this.data.concat(res.data.data);
+        this.data = data;
+
+        this.countData = res.data.record;
+
+        if (isFirstLoad == false) {
+          event?.target?.complete();
+        }
+        
       });
+  }
+
+  getMoreData(event) {
+    this.getData(false, event);
   }
 
   statusColor(status_code) {
@@ -61,6 +91,6 @@ export class Delivery {
   }
 
   go(to) {
-    this.location.go(to);
+    this.navCtrl.navigateForward(to);
   }
 }

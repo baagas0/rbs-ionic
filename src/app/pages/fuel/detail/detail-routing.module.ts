@@ -15,7 +15,10 @@ const routes: Routes = [
   },
   {
     path: 'income',
-    component: DetailFuelIncome,
+    loadChildren: () =>
+      import('./income/detail-income-routing.module').then(
+        (m) => m.DetailFuelIncomeRoutingModule
+      ),
   },
 ];
 

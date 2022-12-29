@@ -15,6 +15,7 @@ import {
 } from '@angular/forms';
 import { IonicSelectableComponent } from 'ionic-selectable';
 import { RestService } from 'src/app/services/rest.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-input-select',
@@ -24,10 +25,12 @@ import { RestService } from 'src/app/services/rest.service';
 export class InputSelectComponent {
   @Input() uri: any;
   @Input() controlName: any;
+  @Input() controlNameArray: any;
   @Input() placeholder: any = 'Pilih Data';
 
   valueFormGroup?: FormGroup;
 
+  dataLimit: number = 20;                               
   dataSelected: any;
 
   datas: any = []; // Data Lookup
@@ -36,52 +39,56 @@ export class InputSelectComponent {
   countData: any = 0;
 
   constructor(
+    private storage: StorageService,
     private restService: RestService,
     private formGroupDirective: FormGroupDirective
   ) {}
 
   async ngOnInit() {
-    // console.log(this.uri)
     this.valueFormGroup = this.formGroupDirective.form;
 
-    // await this.getData();
-    console.log('cek');
-  }
-
-  ionViewDidEnter() {
-    console.log(this.placeholder);
-  }
-
-  ionViewWillEnter() {
-    console.log(this.placeholder);
+    if (this.uri == 'production-units') {
+      this.dataSelected = await this.storage.get(
+        'production_unit_id_array'
+      );
+      this.valueFormGroup.controls[this.controlName].setValue(this.dataSelected.id);
+    }
   }
 
   async getData() {
     await this.restService
       .getting(`lookup/${this.uri}`, {
         order: 'created_at',
-        limit: 12,
+        limit: this.dataLimit,
         offset: this.currentPage,
       })
-      .then((res) => {
-        // console.log(res.data.data);
+      .then(async (res) => {
         this.datas = res.data.data;
         this.countData = res.data.record;
+
+        
       });
   }
 
-  dataChange(event) {
-    console.log(event);
-    // console.log(this.valueFormGroup.controls['driver_id'].value);
+  async dataChange(event) {
+    if (this.uri == 'production-units') {
+      await this.storage.set('production_unit_id', event.value.id);
+      await this.storage.set('production_unit_id_array', event.value);
+    }
+
     this.valueFormGroup.controls[this.controlName].setValue(event.value.id);
-    console.log(this.valueFormGroup.value);
+    if(this.controlNameArray) {
+      console.log(`this.controlNameArray: ${this.controlNameArray}`);
+      this.valueFormGroup.controls[this.controlNameArray].setValue(event.value);
+      console.log(this.valueFormGroup.value);
+    }
   }
 
   async getMoreData(event: {
     component: IonicSelectableComponent;
     text: string;
   }) {
-    if (this.currentPage * 12 >= this.countData) {
+    if ((this.currentPage * this.dataLimit) >= this.countData) {
       event.component.disableInfiniteScroll();
       return;
     }
@@ -93,7 +100,7 @@ export class InputSelectComponent {
     await this.restService
       .getting(uri, {
         order: 'created_at',
-        limit: 12,
+        limit: this.dataLimit,
         offset: this.currentPage,
       })
       .then((res) => {

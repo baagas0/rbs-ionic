@@ -233,3 +233,13 @@
 .ml-3 {
   margin-left: 1.5rem;
 }
+
+.ionic-selectable-inner {
+  display: block;
+  position: relative;
+}
+
+.ionic-selectable-cover {
+  display: block;
+  position: absolute;
+}

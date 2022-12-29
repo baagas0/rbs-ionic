@@ -7,11 +7,14 @@ import { FormFuelUsage } from './usage/form-usage.page';
 const routes: Routes = [
   {
     path: 'usage',
-    component: FormFuelUsage,
+    // component: FormFuelUsage,
+    loadChildren: () =>
+          import('./usage/form-usage.module').then((m) => m.FormFuelUsageModule),
   },
   {
     path: 'income',
-    component: FormFuelIncome,
+    loadChildren: () =>
+          import('./income/form-income.module').then((m) => m.FormFuelIncomeModule),
   },
 ];
 

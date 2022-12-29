@@ -7,7 +7,7 @@
           name="return-up-back-outline"
           class="text-white"
           style="font-size: 24px; margin-right: 1rem"
-          [routerLink]="['/pages/delivery']"
+          (click)="navCtrl.navigateBack('/pages/delivery')"
         ></ion-icon>
         <h5 class="text-white text-w-600">Delivery</h5>
         <div class="text-black" hidden>
@@ -22,25 +22,20 @@
     <form [formGroup]="formData" (ngSubmit)="logForm()">
       <div class="row" style="font-size: 14px">
         <!-- Start Production Schedulle -->
-        <div class="col-12 mb-3">
-          <ion-label position="stacked">Tes Driver</ion-label>
-          <app-input-select [uri]="'drivers'" [controlName]="'driver_id'" [placeholder]="'Data Driver'"></app-input-select>
-        </div>
+
         <div class="col-12 mb-3">
           <ion-label position="stacked">Unit Produksi</ion-label>
-          <ion-select
-            class="select-outline-muted select-muted"
-            placeholder="Pilih unit produksi"
-          >
-            <ion-select-option *ngFor="let up of dataUp" value="{{ up.id }}"
-              >{{ up.name }}</ion-select-option
-            >
-          </ion-select>
+          <app-input-select
+            [uri]="'production-units'"
+            [controlName]="'production_unit_id'"
+            [placeholder]="'Data Plant'"
+          ></app-input-select>
         </div>
 
         <div class="col-12 mb-3 mt-3">
           <ion-label position="stacked">Tanggal Pengiriman</ion-label>
           <ion-input
+            formControlName="date"
             class="form-input"
             [clearInput]="true"
             placeholder="12 Desember 2022"
@@ -49,45 +44,64 @@
 
         <div class="col-12 mb-3">
           <ion-label position="stacked">Driver</ion-label>
-          <app-input-select [uri]="'drivers'" [controlName]="'driver_id'" [placeholder]="'Data Driver'"></app-input-select>
+          <app-input-select
+            [uri]="'drivers'"
+            [controlName]="'driver_id'"
+            [placeholder]="'Data Driver'"
+          ></app-input-select>
         </div>
 
         <div class="col-12 mb-3">
           <ion-label position="stacked">Kendaraan</ion-label>
-          <app-input-select [uri]="'equipments'" [controlName]="'equipment_id'" [placeholder]="'Data Kendaraan'"></app-input-select>
+          <app-input-select
+            [uri]="'equipments'"
+            [controlName]="'equipment_id'"
+            [placeholder]="'Data Kendaraan'"
+          ></app-input-select>
+        </div>
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked">Pelanggan</ion-label>
+          <app-input-select
+            [uri]="'customers'"
+            [controlName]="'customer_id'"
+            [placeholder]="'Data Pelanggan'"
+          ></app-input-select>
         </div>
 
         <div class="col-12 mb-3">
           <ion-label position="stacked">Lokasi Proyek</ion-label>
-          <ion-select
-            class="select-outline-muted select-muted"
-            placeholder="Pilih "
-          >
-            <ion-select-option
-              *ngFor="let up of dataCustomerProject"
-              value="{{ up.id }}"
-              >{{ up.name }}</ion-select-option
-            >
-          </ion-select>
+          <app-input-select
+            [uri]="'customer-projects?customer_id='+formData.controls['customer_id'].value"
+            [controlName]="'customer_project_id'"
+            [placeholder]="'Data Project'"
+          ></app-input-select>
+        </div>
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked">Jarak Pengiriman</ion-label>
+          <ion-input
+            disabled="true"
+            formControlName="distance"
+            class="form-input bg-light text-black disabled"
+            placeholder="Jarak Pengiriman..."
+          ></ion-input>
         </div>
 
         <div class="col-12 mb-3">
           <ion-label position="stacked">Produk</ion-label>
-          <ion-select
-            class="select-outline-muted select-muted"
-            placeholder="Pilih produk"
-          >
-            <ion-select-option
-              *ngFor="let up of dataProduct"
-              value="{{ up.id }}"
-              >{{ up.name }}</ion-select-option
-            >
-          </ion-select>
+          <app-input-select
+            [uri]="'products'"
+            [controlName]="'product_id'"
+            [controlNameArray]="'product'"
+            [placeholder]="'Data Product'"
+          ></app-input-select>
         </div>
 
         <div class="col-12 mb-3">
           <ion-label position="stacked">Nomor Pengiriman</ion-label>
           <ion-input
+            formControlName="docket_number"
             class="form-input"
             placeholder="Ketikkan Nomor Pengiriman disini..."
           ></ion-input>
@@ -96,6 +110,7 @@
         <div class="col-12 mb-3">
           <ion-label position="stacked">Nomor Pembelian</ion-label>
           <ion-input
+            formControlName="purchase_order"
             class="form-input"
             placeholder="Ketikkan Nomor Pembelian disini..."
           ></ion-input>
@@ -104,6 +119,7 @@
         <div class="col-12 mb-3">
           <ion-label position="stacked">Faktur Pembelian</ion-label>
           <ion-input
+            formControlName="invoice_number"
             class="form-input"
             placeholder="Ketikkan Faktur Pembelian disini..."
           ></ion-input>
@@ -112,6 +128,7 @@
         <div class="col-12 mb-3">
           <ion-label position="stacked">Jumlah Kuantitas</ion-label>
           <ion-input
+            formControlName="quantity"
             type="number"
             class="form-input"
             placeholder="Ketikkan Jumlah disini..."

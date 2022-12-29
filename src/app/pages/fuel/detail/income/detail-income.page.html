@@ -7,7 +7,7 @@
           name="return-up-back-outline"
           class="text-white"
           style="font-size: 24px; margin-right: 1rem"
-          (click)="go('/pages/fuel')"
+          (click)="navCtrl.navigateBack('/pages/fuel')"
         ></ion-icon>
         <h5 class="text-white text-w-600">Detail Fuel Income</h5>
         <div class="text-black" hidden>
@@ -23,20 +23,20 @@
       <div class="col-12 bg-white px-6 py-3">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <div>
-            <p class="text-muted mb-0 text-sm">{{ detail.date }}</p>
-            <p class="mb-0 text-w-700">DP {{ detail.docket_number }}</p>
-            <p class="text-sm mb-0">{{ detail.driver_id_name }}</p>
+            <p class="text-muted mb-0 text-sm">{{ detail?.date }}</p>
+            <p class="mb-0 text-w-700">DP {{ detail?.docket_number }}</p>
+            <p class="text-sm mb-0">{{ detail?.driver_id_name }}</p>
           </div>
           <div>
-            <p class="mb-0 text-w-700 text-primary">{{ detail.quantity }}</p>
+            <p class="mb-0 text-w-700 text-primary">{{ detail?.quantity }}</p>
             <p class="mb-0 text-primary">Liter</p>
           </div>
         </div>
         <div>
           <p class="text-sm mb-0">
-            {{ detail.vendor_id_name }}, {{ detail.equipment_id_name }}
+            {{ detail?.vendor_id_name }}, {{ detail?.equipment_id_name }}
           </p>
-          <p class="text-sm mb-0">{{ detail.driver_id_name }}</p>
+          <p class="text-sm mb-0">{{ detail?.driver_id_name }}</p>
         </div>
       </div>
     </div>

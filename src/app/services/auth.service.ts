@@ -30,10 +30,10 @@ export class AuthService {
     data.profile.photo =
       // 'https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-512.png';
       await this.storage.set('profile', data.profile);
-    await this.storage.set('corporate', data.corporate);
-    await this.storage.set('production_unit', data.token);
-    await this.storage.set('token', data.token);
-    await this.storage.set('permissions', data.permissions);
+      await this.storage.set('corporate', data.corporate);
+      await this.storage.set('production_unit', data.token);
+      await this.storage.set('token', data.token);
+      await this.storage.set('permissions', data.permissions);
   }
 
   async getProfile() {

@@ -3,7 +3,12 @@
   <ion-card class="card-header">
     <ion-card-content>
       <div class="d-flex flex-row justify-content-start align-items-center">
-        <ion-icon name="return-up-back-outline" class="text-white" style="font-size: 24px;margin-right: 1rem;" (click)="go('/pages/fuel')"></ion-icon>
+        <ion-icon
+          name="return-up-back-outline"
+          class="text-white"
+          style="font-size: 24px; margin-right: 1rem"
+          (click)="go('/pages/fuel')"
+        ></ion-icon>
         <h5 class="text-white text-w-600">Tambah Penerimaan Solar</h5>
         <div class="text-black" hidden>
           <ion-icon name="filter" color="white" class="mx-3"></ion-icon>
@@ -14,19 +19,16 @@
   </ion-card>
 
   <div class="container mt-3 mb-3">
-    <form [formGroup]="todo" (ngSubmit)="logForm()">
+    <form [formGroup]="formData" (ngSubmit)="logForm()">
       <div class="row" style="font-size: 14px">
         <!-- Start Production Schedulle -->
         <div class="col-12 mb-3">
           <ion-label position="stacked">Unit Produksi</ion-label>
-          <ion-select
-            class="select-outline-muted select-muted"
-            placeholder="Pilih unit produksi"
-          >
-            <ion-select-option value="apples">Apples</ion-select-option>
-            <ion-select-option value="oranges">Oranges</ion-select-option>
-            <ion-select-option value="bananas">Bananas</ion-select-option>
-          </ion-select>
+          <app-input-select
+            [uri]="'production-units'"
+            [controlName]="'production_unit_id'"
+            [placeholder]="'Data Plant'"
+          ></app-input-select>
         </div>
 
         <div class="col-12 mb-3 mt-3">
@@ -40,43 +42,35 @@
 
         <div class="col-12 mb-3">
           <ion-label position="stacked">Vendor</ion-label>
-          <ion-select
-            class="select-outline-muted select-muted"
-            placeholder="Pilih nama vendor"
-          >
-            <ion-select-option value="apples">Apples</ion-select-option>
-            <ion-select-option value="oranges">Oranges</ion-select-option>
-            <ion-select-option value="bananas">Bananas</ion-select-option>
-          </ion-select>
+          <app-input-select
+            [uri]="'vendor'+'s'"
+            [controlName]="'vendor_id'"
+            [placeholder]="'Data Vendor'"
+          ></app-input-select>
         </div>
 
         <div class="col-12 mb-3">
           <ion-label position="stacked">Kendaraan</ion-label>
-          <ion-select
-            class="select-outline-muted select-muted"
-            placeholder="Pilih nomor kendaraan"
-          >
-            <ion-select-option value="apples">Apples</ion-select-option>
-            <ion-select-option value="oranges">Oranges</ion-select-option>
-            <ion-select-option value="bananas">Bananas</ion-select-option>
-          </ion-select>
+          <app-input-select
+            [uri]="'equipment'+'s'"
+            [controlName]="'equipment_id'"
+            [placeholder]="'Data Kendaraan'"
+          ></app-input-select>
         </div>
 
         <div class="col-12 mb-3">
           <ion-label position="stacked">Warehouse (Gudang)</ion-label>
-          <ion-select
-            class="select-outline-muted select-muted"
-            placeholder="Pilih "
-          >
-            <ion-select-option value="apples">Apples</ion-select-option>
-            <ion-select-option value="oranges">Oranges</ion-select-option>
-            <ion-select-option value="bananas">Bananas</ion-select-option>
-          </ion-select>
+          <app-input-select
+            [uri]="'warehouse'+'s'"
+            [controlName]="'warehouse_id'"
+            [placeholder]="'Data Gudang'"
+          ></app-input-select>
         </div>
 
         <div class="col-12 mb-3">
           <ion-label position="stacked">Nomor Pengiriman</ion-label>
           <ion-input
+            formControlName="docket_number"
             class="form-input"
             placeholder="Ketikkan Nomor Pengiriman disini..."
           ></ion-input>
@@ -85,6 +79,7 @@
         <div class="col-12 mb-3">
           <ion-label position="stacked">Nomor Pembelian</ion-label>
           <ion-input
+            formControlName="purchase_order"
             class="form-input"
             placeholder="Ketikkan Nomor Pembelian disini..."
           ></ion-input>
@@ -93,6 +88,7 @@
         <div class="col-12 mb-3">
           <ion-label position="stacked">Jumlah Kuantitas</ion-label>
           <ion-input
+            formControlName="quantity"
             type="number"
             class="form-input"
             placeholder="Ketikkan Jumlah Volume Solar disini..."
@@ -102,6 +98,7 @@
         <div class="col-12 mb-3">
           <ion-label position="stacked">Catatan</ion-label>
           <ion-textarea
+            formControlName="description"
             class="form-input"
             placeholder="Ketikkan Jumlah Volume Solar disini..."
           ></ion-textarea>

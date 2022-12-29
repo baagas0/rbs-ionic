@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { TestService } from 'src/app/services/test.service';
 
@@ -16,30 +17,18 @@ import { TestService } from 'src/app/services/test.service';
   styleUrls: ['detail-income.page.scss'],
 })
 export class DetailFuelIncome {
-  public formData: FormGroup;
-  showDatePicker: boolean = false;
   detail: any = {};
-  hasData: boolean = true;
-  todo: FormGroup;
 
   constructor(
     @Inject(LOCALE_ID) locale: string,
     private restService: RestService,
-    private formBuilder: FormBuilder,
     private router: Router,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private navCtrl: NavController
   ) {
-    this.todo = this.formBuilder.group({
-      title: ['', Validators.required],
-      description: [''],
-    });
   }
 
   async ngOnInit() {
-    // this.formData = new FormGroup({
-    //   valDate: new FormControl(),
-    // });
-    // this.formData.controls['valDate'].setValue(new Date());
     this.getData();
   }
 
@@ -51,11 +40,4 @@ export class DetailFuelIncome {
     });
   }
 
-  logForm() {
-    console.log(this.todo);
-  }
-
-  go(to) {
-    this.router.navigate([to]);
-  }
 }
