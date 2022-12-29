@@ -1,0 +1,154 @@
+<ion-content overflow-scroll="true">
+  <div></div>
+  <div
+    class="bg-overlay"
+    style="position: absolute; height: 100%; width: 100%; z-index: -1"
+  >
+    <img src="assets/export-figma/login/bg.png" style="width: 100%" />
+    <!-- <img
+      src="assets/export-figma/login/pattern-2.svg"
+      style="position: absolute; bottom: 0; right: 0; left: 0; width: 100%"
+    /> -->
+  </div>
+
+  <div class="d-flex vh-100">
+    <div
+      class="justify-content-center align-self-bottom w-100 mt-auto custom-card"
+    >
+      <div class="container">
+        <div class="container">
+          <!-- Logo -->
+          <div
+            class="d-flex flex-row justify-content-center align-items-center mb-3 mt-3"
+          >
+            <img src="assets/export-figma/login/logo.svg" alt="" srcset="" />
+            <p class="my-0">Readymix Business Solution</p>
+          </div>
+
+          <!-- Form -->
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <ion-input
+              required
+              formControlName="username"
+              class="mb-3"
+              type="text"
+              placeholder="Username"
+            ></ion-input>
+
+            <ion-input
+              required
+              formControlName="password"
+              class="mb-3"
+              type="password"
+              placeholder="Kata Sandi"
+            ></ion-input>
+
+            <div
+              class="d-flex flex-row justify-content-between align-items-center mb-3"
+            >
+              <p
+                class="my-0 text-w-500 text-primary"
+                id="open-modal"
+                expand="block"
+              >
+                Lupa Password?
+              </p>
+              <ion-button
+                class="button-login"
+                block
+                type="submit"
+                color="primary"
+                [disabled]="loginForm.invalid"
+              >
+                Login
+              </ion-button>
+            </div>
+          </form>
+
+          <!-- SSO -->
+          <ion-button
+            class="button-sso-google text-black mb-3"
+            color="light"
+            type="button"
+          >
+            <img
+              src="assets/export-figma/login/logo-google.png"
+              height="24"
+              width="24"
+              class="mr-1 text-w-600"
+            />
+            Masuk dengan Google
+          </ion-button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ion-content>
+<ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="cancel()">Cancel</ion-button>
+        </ion-buttons>
+        <ion-title>Forgot Password</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div
+        class="bg-overlay"
+        style="position: absolute; height: 100%; width: 100%; z-index: -1"
+      >
+        <!-- <img src="assets/export-figma/login/pattern-2.svg" /> -->
+        <img
+          src="assets/export-figma/login/pattern-2.svg"
+          style="position: absolute; bottom: 0; right: 0; left: 0; width: 50%"
+        />
+      </div>
+
+      <div class="d-flex h-100">
+        <div
+          class="justify-content-center align-self-center w-100 custom-card no-border"
+        >
+          <div class="container">
+            <div class="container">
+              <!-- Logo -->
+              <div
+                class="mb-3 mt-3"
+              >
+                <p class="text-center my-0 text-w-600">Masukan Email Anda</p>
+                <p class="text-center my-0 ">Kami akan mengirimkan link untuk mereset ulang kata sandi anda</p>
+              </div>
+
+              <!-- Form -->
+              <form [formGroup]="loginForm" (ngSubmit)="onResetPassword()">
+                <ion-input
+                  required
+                  formControlName="email"
+                  class="mb-3"
+                  type="text"
+                  placeholder="Masukan Email Anda"
+                ></ion-input>
+
+                <div
+                  class="d-flex flex-row justify-content-center align-items-center mb-3"
+                >
+                  <ion-button
+                    class="button-login"
+                    block
+                    type="submit"
+                    color="primary"
+                    [disabled]="loginForm.invalid"
+                  >
+                    Kirim Email
+                  </ion-button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

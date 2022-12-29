@@ -1,0 +1,112 @@
+<ion-router-outlet></ion-router-outlet>
+<ion-content [fullscreen]="true">
+  <ion-card class="card-header">
+    <ion-card-content>
+      <div class="d-flex flex-row justify-content-start align-items-center">
+        <ion-icon
+          name="return-up-back-outline"
+          class="text-white"
+          style="font-size: 24px; margin-right: 1rem"
+          (click)="go('/pages/fuel/detail/usage')"
+        ></ion-icon>
+        <h5 class="text-white text-w-600">Fuel Usage History - Equipment</h5>
+        <div class="text-black" hidden>
+          <ion-icon name="filter" color="white" class="mx-3"></ion-icon>
+          <ion-icon name="search" color="white"></ion-icon>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <div class="container mt-3 mb-3">
+    <div class="row">
+      <div class="col-12">
+        <ion-card class="card-header bg-white">
+          <ion-card-content>
+            <div
+              class="d-flex flex-row justify-content-between align-items-top"
+            >
+              <div>
+                <p>TM-01</p>
+                <p class="text-w-600">K 000 K</p>
+                <p class="text-muted text-sm">Plant Salatiga</p>
+
+                <ion-badge
+                  class="badge-sm bg-radius bg-op-success text-success mt-3"
+                  >Aktif</ion-badge
+                >
+
+                <ion-badge
+                  class="badge-sm bg-radius bg-light mx-2 text-secondary mt-3"
+                  >Due: 30 Dec 2022</ion-badge
+                >
+              </div>
+              <div>
+                <img
+                  src="../../../../../../../assets/export-figma/building.png"
+                  alt=""
+                />
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+      <div class="col-12">
+        <p
+          id="date-control"
+          expand="block"
+          class="text-center p-1 px-3 mt-3 d-flex align-items-center"
+        >
+          <span style="vertical-align: middle"
+            >{{ valDate.from | date: 'shortDate' }} - {{ valDate.to | date:
+            'shortDate' }}</span
+          >
+          <ion-icon
+            class="ml-2"
+            color="primary"
+            name="calendar-outline"
+          ></ion-icon>
+        </p>
+      </div>
+    </div>
+
+    <div class="row mt-3" style="font-size: 14px">
+      <!-- Start Production Schedulle -->
+      <div class="col-12 bg-light px-6 py-3">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <p class="text-w-500 mb-0">11 Juli 2022</p>
+            <p class="text-sm mb-0">Driver : Marjuki</p>
+          </div>
+          <div>
+            <p class="mb-0 text-w-700 text-primary">89</p>
+            <p class="mb-0 text-primary">Liter</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-modal
+  trigger="date-control"
+  [initialBreakpoint]="0.5"
+  [breakpoints]="[0, 0.25, 0.5, 0.75]"
+  handleBehavior="cycle"
+>
+  <ng-template>
+    <ion-content class="ion-padding">
+      <div class="ion-margin-top">
+        <ion-calendar
+          class="p-0"
+          [(ngModel)]="valDate"
+          (change)="dateChange($event)"
+          [options]="valDateOptions"
+          [type]="'string'"
+          [format]="'YYYY-MM-DD'"
+        >
+        </ion-calendar>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

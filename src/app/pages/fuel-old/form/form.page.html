@@ -1,0 +1,16 @@
+<ion-router-outlet></ion-router-outlet>
+<ion-content [fullscreen]="true">
+  <app-top-header title="Form"></app-top-header>
+
+  <div class="row px-3" style="font-size: 14px">
+    <form action="" [formGroup]="form">
+      <!-- Start Form -->
+      <div class="col-12">
+        <app-input-select [(data)]="form.controls.tes"></app-input-select>
+      </div>
+
+      <pre>{{form.value|json}}</pre>
+      <button class="btn btn-success" (click)="check()">Check</button>
+    </form>
+  </div>
+</ion-content>

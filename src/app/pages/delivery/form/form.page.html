@@ -1,0 +1,125 @@
+<ion-router-outlet></ion-router-outlet>
+<ion-content [fullscreen]="true">
+  <ion-card class="card-header">
+    <ion-card-content>
+      <div class="d-flex flex-row justify-content-start align-items-center">
+        <ion-icon
+          name="return-up-back-outline"
+          class="text-white"
+          style="font-size: 24px; margin-right: 1rem"
+          [routerLink]="['/pages/delivery']"
+        ></ion-icon>
+        <h5 class="text-white text-w-600">Delivery</h5>
+        <div class="text-black" hidden>
+          <ion-icon name="filter" color="white" class="mx-3"></ion-icon>
+          <ion-icon name="search" color="white"></ion-icon>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <div class="container mt-3 mb-3">
+    <form [formGroup]="formData" (ngSubmit)="logForm()">
+      <div class="row" style="font-size: 14px">
+        <!-- Start Production Schedulle -->
+        <div class="col-12 mb-3">
+          <ion-label position="stacked">Tes Driver</ion-label>
+          <app-input-select [uri]="'drivers'" [controlName]="'driver_id'" [placeholder]="'Data Driver'"></app-input-select>
+        </div>
+        <div class="col-12 mb-3">
+          <ion-label position="stacked">Unit Produksi</ion-label>
+          <ion-select
+            class="select-outline-muted select-muted"
+            placeholder="Pilih unit produksi"
+          >
+            <ion-select-option *ngFor="let up of dataUp" value="{{ up.id }}"
+              >{{ up.name }}</ion-select-option
+            >
+          </ion-select>
+        </div>
+
+        <div class="col-12 mb-3 mt-3">
+          <ion-label position="stacked">Tanggal Pengiriman</ion-label>
+          <ion-input
+            class="form-input"
+            [clearInput]="true"
+            placeholder="12 Desember 2022"
+          ></ion-input>
+        </div>
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked">Driver</ion-label>
+          <app-input-select [uri]="'drivers'" [controlName]="'driver_id'" [placeholder]="'Data Driver'"></app-input-select>
+        </div>
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked">Kendaraan</ion-label>
+          <app-input-select [uri]="'equipments'" [controlName]="'equipment_id'" [placeholder]="'Data Kendaraan'"></app-input-select>
+        </div>
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked">Lokasi Proyek</ion-label>
+          <ion-select
+            class="select-outline-muted select-muted"
+            placeholder="Pilih "
+          >
+            <ion-select-option
+              *ngFor="let up of dataCustomerProject"
+              value="{{ up.id }}"
+              >{{ up.name }}</ion-select-option
+            >
+          </ion-select>
+        </div>
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked">Produk</ion-label>
+          <ion-select
+            class="select-outline-muted select-muted"
+            placeholder="Pilih produk"
+          >
+            <ion-select-option
+              *ngFor="let up of dataProduct"
+              value="{{ up.id }}"
+              >{{ up.name }}</ion-select-option
+            >
+          </ion-select>
+        </div>
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked">Nomor Pengiriman</ion-label>
+          <ion-input
+            class="form-input"
+            placeholder="Ketikkan Nomor Pengiriman disini..."
+          ></ion-input>
+        </div>
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked">Nomor Pembelian</ion-label>
+          <ion-input
+            class="form-input"
+            placeholder="Ketikkan Nomor Pembelian disini..."
+          ></ion-input>
+        </div>
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked">Faktur Pembelian</ion-label>
+          <ion-input
+            class="form-input"
+            placeholder="Ketikkan Faktur Pembelian disini..."
+          ></ion-input>
+        </div>
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked">Jumlah Kuantitas</ion-label>
+          <ion-input
+            type="number"
+            class="form-input"
+            placeholder="Ketikkan Jumlah disini..."
+          ></ion-input>
+        </div>
+
+        <ion-button type="submit">Simpan Data</ion-button>
+      </div>
+    </form>
+  </div>
+</ion-content>

@@ -1,0 +1,9 @@
+// Tab Styling
+.tab {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.tab .active {
+  border-bottom: 3px solid #1f4f94;
+  color: #1f4f94;
+}

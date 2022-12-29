@@ -1,0 +1,69 @@
+<ion-router-outlet></ion-router-outlet>
+<ion-content [fullscreen]="true">
+  <ion-card class="card-header">
+    <ion-card-content>
+      <div class="d-flex flex-row justify-content-start align-items-center">
+        <ion-icon
+          name="return-up-back-outline"
+          class="text-white"
+          style="font-size: 24px; margin-right: 1rem"
+          (click)="go('/pages/fuel')"
+        ></ion-icon>
+        <h5 class="text-white text-w-600">Detail Fuel Usage</h5>
+        <div class="text-black" hidden>
+          <ion-icon name="filter" color="white" class="mx-3"></ion-icon>
+          <ion-icon name="search" color="white"></ion-icon>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <div class="container mt-3 mb-3">
+    <div class="row">
+      <div class="col-12 bg-light px-6 py-3">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <p class="text-muted mb-0">
+              {{ detail.date }} <b>{{ detail.equipment_id_code }}</b>
+            </p>
+            <p class="mb-0 text-w-700">
+              {{ detail.equipment_id_name }}, {{ detail.equipment_id_code }}
+            </p>
+            <p class="text-sm mb-0">{{ detail.driver_id_name }}</p>
+          </div>
+          <div>
+            <p class="mb-0 text-w-700 text-primary">{{ detail.quantity }}</p>
+            <p class="mb-0 text-primary">KM</p>
+          </div>
+        </div>
+        <p class="text-sm text-black mt-3 mb-0">Data Pengisi Solar</p>
+        <p class="text-sm text-black mt-2">
+          {{ detail.created_by_name ?? "ADMIN" }}
+        </p>
+
+        <ion-button
+          class="btn btn-sm text-white p-0"
+          (click)="go('/pages/fuel/detail/usage/history/equipment')"
+        >
+          <ion-icon
+            name="refresh-circle-outline"
+            class="text-white"
+            style="font-size: 20px; margin-right: 1rem"
+          ></ion-icon
+          >Riwayat Equipment</ion-button
+        >
+        <ion-button
+          class="btn btn-sm text-white p-0"
+          (click)="go('/pages/fuel/detail/usage/history/driver')"
+        >
+          <ion-icon
+            name="person"
+            class="text-white"
+            style="font-size: 20px; margin-right: 1rem"
+          ></ion-icon
+          >Riwayat Driver</ion-button
+        >
+      </div>
+    </div>
+  </div>
+</ion-content>

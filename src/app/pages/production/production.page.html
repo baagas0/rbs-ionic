@@ -1,0 +1,53 @@
+<ion-router-outlet></ion-router-outlet>
+<ion-content [fullscreen]="true">
+  <ion-card class="card-header">
+    <ion-card-content>
+      <div class="d-flex flex-row justify-content-between align-items-center">
+        <h5 class="text-white">Data Produksi</h5>
+        <div class="text-white">
+          <ion-icon name="filter" color="white" class="mx-3"></ion-icon>
+          <ion-icon name="search" color="white"></ion-icon>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <div class="row px-3" style="font-size: 14px">
+    <!-- Start Production Schedulle -->
+    <div class="col-12">
+      <div class="row" *ngFor="let item of dataProductions">
+        <div class="col-12">
+          <div
+            class="d-flex flex-row justify-content-between align-items-center mt-3"
+          >
+            <p class="text-primary text-w-500 mb-0">{{ item.driver_name }}</p>
+            <ion-badge
+              class="badge-sm bg-op-{{ statusColor(item.production_status_code) }} text-{{ statusColor(item.production_status_code) }}"
+              >{{ item.production_status_name }}</ion-badge
+            >
+          </div>
+        </div>
+        <div class="col-12">
+          <p class="text-w-500 text-black mb-1 mt-1">
+            {{ item.product_name }} |
+            <span class="text-grey">{{ item.product_code }}</span>
+          </p>
+          <p class="text-w-600 text-success mb-2 mt-1">
+            {{item.quantity}} {{item.uom_name}}
+          </p>
+
+          <div class="hr"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- No Data -->
+    <div class="col-12" *ngIf="!hasData">
+      <div
+        class="d-flex flex-row justify-content-center align-items-center mt-3 text-danger"
+      >
+        <p>Data Kosong</p>
+      </div>
+    </div>
+  </div>
+</ion-content>

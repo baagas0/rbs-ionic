@@ -1,0 +1,25 @@
+.map {
+  position: relative !important;
+  // overflow: visible !important;
+  // height: 80%;
+  // all: unset !important;
+  // height: 300px;
+  height: calc(100vh * 0.4);
+}
+
+.map div {
+  // height: 50% !important;
+}
+
+.point {
+  height: 15px;
+  width: 15px;
+  background-color: black;
+  border-radius: 15px;
+}
+
+.dash-line-vertical {
+  width: 1px;
+  height: 100%;
+  border: 1px dashed #00ab9a;
+}

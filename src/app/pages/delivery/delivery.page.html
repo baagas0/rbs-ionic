@@ -1,0 +1,47 @@
+<ion-router-outlet></ion-router-outlet>
+<ion-content [fullscreen]="true">
+  <ion-card class="card-header bg-white">
+    <ion-card-content>
+      <div class="d-flex flex-row justify-content-between align-items-center">
+        <h5 class="text-black text-w-600">Delivery</h5>
+        <div class="text-black" hidden>
+          <ion-icon name="filter" color="white" class="mx-3"></ion-icon>
+          <ion-icon name="search" color="white"></ion-icon>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <div class="row" style="font-size: 14px">
+    <!-- Start Production Schedulle -->
+    <div
+      class="col-12 bg-light px-6 py-3"
+      *ngFor="let item of data.data; let i = index"
+      [routerLink]="['/pages/delivery/detail']"
+      [queryParams]="{id: item.id}"
+    >
+    
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <p class="text-muted mb-0">
+            {{ item.date | date }} <b>{{ item.equipment_id_name }}</b>
+          </p>
+          <p class="mb-0 text-w-700">DP - {{ item.docket_number }}</p>
+          <p class="text-sm mb-0">
+            {{ item.driver_id_name }}, {{ item.customer_project_id_name }}
+          </p>
+        </div>
+        <div style="text-align: right;">
+          <p class="mb-0 text-w-700 text-primary">{{ item.distance.toFixed(2) }}</p>
+          <p class="mb-0 text-primary">KM</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-button class="text-white" [routerLink]="['/pages/delivery/form']">
+      <ion-icon name="add-circle-outline" class="text-white"></ion-icon> Tambah
+    </ion-button>
+  </ion-fab>
+</ion-content>

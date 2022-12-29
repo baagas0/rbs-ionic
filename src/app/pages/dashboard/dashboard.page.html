@@ -1,0 +1,282 @@
+<ion-content [fullscreen]="true">
+  <ion-card
+    class="card-header"
+    style="
+      background-image: url(../../../assets/export-figma/home/topbar.png);
+      min-height: 130px;
+    "
+  >
+    <ion-card-content>
+      <div class="row mt-3">
+        <div class="col-6">
+          <div
+            class="d-flex justify-content-start mt-auto align-items-center h-100"
+          >
+            <h2 class="text-w-700 text-white">Halo, {{ profile.name }}</h2>
+          </div>
+        </div>
+        <div class="col-6">
+          <a routerLink="/pages/driver">
+            <img
+              [src]="profile?.photo"
+              onError="this.src='../../../assets/icon/user-yellow.svg'"
+              class="rounded-circle img-thumbnail img-avatar"
+              alt="Raeesh"
+            />
+          </a>
+        </div>
+        <div class="col-12">
+          <div class="input-group input-lg merge-input-icon my-3" hidden>
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1"
+                ><ion-icon name="search"></ion-icon
+              ></span>
+            </div>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Cari nomor doket ..."
+              (keyup)="searchDocket($event.target.value)"
+            />
+          </div>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <div class="d-flex justify-content-center" style="margin-top: -20px">
+    <div class="container row">
+      <div class="card bg-">
+        <div class="d-flex justify-content-between align-items-center">
+          <ion-select
+            style="height: 40px"
+            placeholder="Pilih Unit Produksi"
+            interface="popover"
+            class="select-corporate"
+            [(ngModel)]="upSelected"
+          >
+            <ion-select-option *ngFor="let up of dataUp" value="{{ up.id }}"
+              >{{ up.name }}</ion-select-option
+            >
+          </ion-select>
+
+          <p
+            id="date-control"
+            expand="block"
+            class="text-center p-1 px-3 mt-3 d-flex align-items-center"
+          >
+            <span style="vertical-align: middle"
+              >{{ valDate.from | date: 'shortDate' }}</span
+            >
+            <ion-icon
+              class="ml-3"
+              color="primary"
+              name="chevron-down"
+            ></ion-icon>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row px-3">
+    <!-- Start Date View -->
+    <div class="col-8" hidden>
+      <p
+        id="date-control"
+        expand="block"
+        class="text-center p-1 px-3 mt-3 d-flex align-items-center"
+      >
+        <span style="vertical-align: middle"
+          >{{ valDate.from | date: 'shortDate' }} - {{ valDate.to | date:
+          'shortDate' }}</span
+        >
+        <ion-icon class="ml-3" color="primary" name="chevron-down"></ion-icon>
+      </p>
+    </div>
+    <div class="col-2">
+    </div>
+
+    <!-- Statistik -->
+    <div class="col-12 mt-3">
+      <div class="row">
+        <div class="col-12 mb-3">
+          <div
+            class="bg-light bg-radius d-flex flex-row justify-content-between align-items-center p-2"
+          >
+            <div>
+              <p class="text-sm text-black">Stok Solar</p>
+              <h6 class="text-lg text-black text-w-700" style="font-size: 18px">
+                {{ dataStatistic?.fuel_stock ? dataStatistic?.fuel_stock : 0 | number }}
+                <small class="text-w-400 text-sm text-muted">Liter</small>
+              </h6>
+            </div>
+            <div class="bg-light bg-radius" style="margin-right: 5px">
+              <img
+                src="assets/export-figma/TabsMenu/Icon/maintenance.png"
+                alt=""
+                srcset=""
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="bg-light bg-radius d-flex flex-row p-2">
+            <div>
+              <p class="text-sm text-black">Pembelian</p>
+              <h4
+                class="text-lg text-success text-w-700"
+                style="font-size: 18px"
+              >
+                {{ dataStatistic?.fuel_income ? dataStatistic?.fuel_income : 0 | number }}
+                <small class="text-w-400 text-sm text-muted">Liter</small>
+              </h4>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="bg-light bg-radius d-flex flex-row p-2">
+            <div>
+              <p class="text-sm text-black">Penggunaan</p>
+              <h6
+                class="text-lg text-danger text-w-700"
+                style="font-size: 18px"
+              >
+                {{ dataStatistic?.fuel_usage ? dataStatistic?.fuel_usage : 0 | number }}
+                <small class="text-w-400 text-sm text-muted">Liter</small>
+              </h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 mt-3">
+      <h6 class="text-lg text-black text-w-700">
+        Rata Rata Index Pemakaian Hari Ini
+      </h6>
+      <div class="row">
+        <div class="col-4">
+          <div
+            class="bg-light bg-radius d-flex flex-row justify-content-between p-2"
+          >
+            <div>
+              <p class="text-sm text-black">L/Volume</p>
+              <h6 class="text-lg text-black text-w-700" style="font-size: 18px">
+                {{ dataAverageIndex?.summary?.l_volume | number }}
+              </h6>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="bg-light bg-radius d-flex flex-row p-2">
+            <div>
+              <p class="text-sm text-black">Volume/Rit</p>
+              <h6 class="text-lg text-black text-w-700" style="font-size: 18px">
+                {{ dataAverageIndex?.summary?.volume_rit | number }}
+              </h6>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="bg-light bg-radius d-flex flex-row p-2">
+            <div>
+              <p class="text-sm text-black">KM/Liter</p>
+              <h6 class="text-lg text-black text-w-700" style="font-size: 18px">
+                {{ dataAverageIndex?.summary?.km_liter | number }}
+              </h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 mt-3">
+      <h6 class="text-lg text-black text-w-700">Total Pengiriman Hari Ini</h6>
+      <div class="row">
+        <div class="col-12">
+          <div
+            class="bg-light bg-radius d-flex flex-row justify-content-between p-2"
+          >
+            <div>
+              <p class="text-sm text-black">Volume (Liter)</p>
+              <h6 class="text-lg text-black text-w-700" style="font-size: 18px">
+                {{ dataTotalDelivery?.summary?.volume | number }}
+              </h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 mt-3 mb-3">
+      <h6 class="text-lg text-black text-w-700">Index Pemakaian Hari Ini</h6>
+      <!-- <small>(21 dec)note: data belum hari ini</small> -->
+
+      <table class="table text-center fuel-index">
+        <thead>
+          <tr>
+            <th style="width: 50%; text-align: left">Equipment</th>
+            <th>Total Liter</th>
+            <th>Total Volume</th>
+            <th>Average</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of dataIndexEquipment.data">
+            <td style="text-align: left">
+              <div class="vertical-center">
+                <p class="text-md text-black text-w-600 mt-0 mb-0">
+                  {{ item.equipment_name }}
+                </p>
+                <span class="text-muted d-block"
+                  >{{ item.equipment_type_name }}</span
+                >
+              </div>
+            </td>
+            <td style="vertical-align: middle">
+              <ion-badge class="badge-sm bg-radius bg-op-danger text-danger"
+                >{{ item.total_liter }}</ion-badge
+              >
+            </td>
+            <td style="vertical-align: middle">
+              <ion-badge class="badge-sm bg-radius bg-op-success text-success"
+                >{{ item.total_volume }}</ion-badge
+              >
+            </td>
+            <td style="vertical-align: middle">
+              <ion-badge class="badge-sm bg-radius bg-op-success text-success"
+                >{{ (item.total_liter + item.total_volume) / 2 }}</ion-badge
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <ion-modal
+    trigger="date-control"
+    [initialBreakpoint]="0.5"
+    [breakpoints]="[0, 0.25, 0.5, 0.75]"
+    handleBehavior="cycle"
+  >
+    <ng-template>
+      <ion-content class="ion-padding">
+        <div class="ion-margin-top">
+          <ion-calendar
+            class="p-0"
+            [(ngModel)]="valDate"
+            (change)="dateChange($event)"
+            [options]="valDateOptions"
+            [type]="'string'"
+            [format]="'YYYY-MM-DD'"
+          >
+          </ion-calendar>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

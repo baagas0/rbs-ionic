@@ -1,0 +1,144 @@
+<ion-router-outlet></ion-router-outlet>
+<ion-content [fullscreen]="true">
+  <div class="row text-center tab">
+    <div
+      class="col-4 p-3"
+      [class]="tab == 'l/m3' ? 'active' : ''"
+      (click)="selectTab('l/m3')"
+    >
+      <small>Minimum</small>
+    </div>
+    <div
+      class="col-4 p-3"
+      [class]="tab == 'm3/rit' ? 'active' : ''"
+      (click)="selectTab('m3/rit')"
+    >
+      <small>Average</small>
+    </div>
+    <div
+      class="col-4 p-3"
+      [class]="tab == 'km/l' ? 'active' : ''"
+      (click)="selectTab('km/l')"
+    >
+      <small>Maximum</small>
+    </div>
+  </div>
+  <div class="">
+    <div class="row h-100" style="background-color: #fafafa">
+      <div class="col-12 mt-3">
+        <div class="container">
+
+          <h6 class="text-lg text-primary text-w-700">
+            Rata Rata Index Pemakaian Hari Ini
+          </h6>
+          <div class="row">
+            <div class="col-4">
+              <div
+                class="bg-blue-inactive bg-radius d-flex flex-row justify-content-between p-2"
+              >
+                <div>
+                  <p class="text-sm text-black">L/Volume</p>
+                  <h6
+                    class="text-lg text-black text-w-700"
+                    style="font-size: 18px"
+                  >
+                    {{ dataFuelIndex?.summary?.quantity_in | number }} 0,1
+                  </h6>
+                </div>
+              </div>
+            </div>
+  
+            <div class="col-4">
+              <div class="bg-blue-active bg-radius d-flex flex-row p-2">
+                <div>
+                  <p class="text-sm text-black">Volume/Rit</p>
+                  <h6
+                    class="text-lg text-black text-w-700"
+                    style="font-size: 18px"
+                  >
+                    {{ dataFuelIndex?.summary?.quantity_in | number }} 0,1
+                  </h6>
+                </div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="bg-blue-inactive bg-radius d-flex flex-row p-2">
+                <div>
+                  <p class="text-sm text-black">KM/Liter</p>
+                  <h6
+                    class="text-lg text-black text-w-700"
+                    style="font-size: 18px"
+                  >
+                    {{ dataFuelIndex?.summary?.quantity_out | number }} 0,1
+                  </h6>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div id="chartProgressMonth">
+          <apx-chart
+            [series]="chartOptions?.series"
+            [chart]="chartOptions?.chart"
+            [xaxis]="chartOptions?.xaxis"
+            [stroke]="chartOptions?.stroke"
+            [tooltip]="chartOptions?.tooltip"
+            [dataLabels]="chartOptions?.dataLabels"
+          ></apx-chart>
+        </div>
+      </div>
+
+      <div class="col-12 mt-3 mb-3">
+        <div class="container">
+          <h6 class="text-lg text-primary text-w-700">Index Pemakaian Hari Ini</h6>
+          <!-- <small>(21 dec)note: data belum hari ini</small> -->
+          
+        </div>
+
+        <table class="table text-center fuel-index">
+          <thead>
+            <tr>
+              <th style="width: 50%; text-align: left">Equipment</th>
+              <th>Total Liter</th>
+              <th>Total Volume</th>
+              <th>Average</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: left">
+                <div class="vertical-center">
+                  <p class="text-md text-black text-w-600 mt-0 mb-0">
+                    {{ "TM-001" }}
+                  </p>
+                  <span class="text-muted d-block"
+                    >{{ "Truct Mixer" }}</span
+                  >
+                </div>
+              </td>
+              <td style="vertical-align: middle">
+                <ion-badge class="badge-sm bg-radius bg-op-danger text-danger"
+                  >{{ "10" }}</ion-badge
+                >
+              </td>
+              <td style="vertical-align: middle">
+                <ion-badge class="badge-sm bg-radius bg-op-success text-success"
+                  >{{ "11" }}</ion-badge
+                >
+              </td>
+              <td style="vertical-align: middle">
+                <ion-badge class="badge-sm bg-radius bg-op-success text-success"
+                  >{{ "12" }}</ion-badge
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,47 @@
+ion-card {
+  margin: 0px;
+  border-radius: 10px;
+}
+
+.select-corporate {
+  color: #ffff !important;
+  --placeholder-color: #ffff;
+  --placeholder-opacity: 1;
+}
+
+ion-icon {
+  color: #181c32;
+  font-size: 20px;
+}
+
+.img-avatar {
+  height: 50px;
+  float: right;
+  background-color: transparent;
+  // border: none;
+}
+
+#date-control {
+  border: 1.5px solid #1f4f94;
+  border-radius: 8px;
+  font-weight: 700;
+  color: #1f4f94;
+}
+
+.text-precentace {
+  font-style: normal;
+  font-weight: 900;
+  font-size: 32.8163px;
+  line-height: 49px;
+  letter-spacing: 0.01em;
+
+  color: #ff5c00;
+}
+
+.text-decimal {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20.013px;
+  line-height: 30px;
+}

@@ -1,0 +1,95 @@
+<ion-router-outlet></ion-router-outlet>
+<ion-content [fullscreen]="true">
+  <div class="row text-center tab">
+    <div
+      class="col-6 p-3"
+      [class]="tab == 'equipment' ? 'active' : ''"
+      (click)="selectTab('equipment')"
+    >
+      <small>Equipment</small>
+    </div>
+    <div
+      class="col-6 p-3"
+      [class]="tab == 'driver' ? 'active' : ''"
+      (click)="selectTab('driver')"
+    >
+      <small>Driver</small>
+    </div>
+  </div>
+
+  <div class="row mt-3" style="font-size: 14px" *ngIf="tab == 'equipment'">
+    <!-- Start Production Schedulle -->
+    <div
+      *ngFor="let item of dataEquipment.data; let i = index"
+      class="col-12 bg-{{ i%2 == 0 ? 'light' : 'white' }} px-6 py-3"
+      [routerLink]="['/pages/resources/detail/equipment']"
+      [queryParams]="{id: item.id}"
+    >
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <p class="mb-0 text-w-700">
+            {{ item.name }} {{ item.vehicle_number }}
+          </p>
+          <p class="text-muted text-sm mb-0">
+            {{ item.equipment_category_id_name }}
+          </p>
+          <ion-badge
+            class="badge-sm bg-radius"
+            [ngClass]="{
+            'bg-op-success': item.active == '1',
+            'bg-op-danger': item.active == '0',
+            'text-success': item.active == '1',
+            'text-danger': item.active == '0'
+          }"
+            >{{ item.active == "1" ? "Available" : "Unavailable" }}</ion-badge
+          >
+        </div>
+        <div>
+          <img
+            src="../../../assets/export-figma/icon-equipment.png"
+            class="img img-thumbnail"
+            alt=""
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3" style="font-size: 14px" *ngIf="tab == 'driver'">
+    <!-- Start Production Schedulle -->
+    <div
+      *ngFor="let item of dataDriver.data; let i = index"
+      class="col-12 bg-{{ i%2 == 0 ? 'light' : 'white' }} px-6 py-3"
+      [routerLink]="['/pages/resources/detail/driver']"
+      [queryParams]="{id: item.id}"
+    >
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <p class="mb-0 text-w-700">{{ item.name }}</p>
+          <p class="mb-0 text-w-700">{{ item.phone }}</p>
+          <p class="text-muted text-sm mb-0">
+            Masa Berlaku SIM : {{ item.licence_expired | date }}{{
+            item.licence_expired ? "" : "-" }}
+          </p>
+          <ion-badge
+            class="badge-sm bg-radius"
+            [ngClass]="{
+            'bg-op-success': item.active == '1',
+            'bg-op-danger': item.active == '0',
+            'text-success': item.active == '1',
+            'text-danger': item.active == '0'
+          }"
+            >{{ item.active == "1" ? "Available" : "Unavailable" }}</ion-badge
+          >
+        </div>
+        <div>
+          <img
+            src="../../../assets/export-figma/icon-equipment.png"
+            class="img img-thumbnail"
+            alt=""
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

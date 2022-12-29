@@ -1,0 +1,235 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import "~@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+.card-header {
+  background-color: #1f4f94;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.float-right {
+  float: right !important;
+}
+
+.text-header {
+  color: black;
+  font-weight: 700 !important;
+}
+
+.text-primary {
+  color: #1f4f94 !important;
+}
+
+.text-success {
+  color: #00ab9a !important;
+}
+
+.text-danger {
+  color: #f64e60 !important;
+}
+
+.text-warning {
+  color: #ef8100 !important;
+}
+
+.text-muted {
+  color: #b5b5c3 !important;
+}
+
+.text-sm {
+  font-size: 12px !important;
+}
+
+.bg-op-success {
+  background-color: #c9f7f5 !important;
+}
+
+.bg-op-danger {
+  background-color: rgb(246, 78, 96, 0.3) !important;
+}
+
+.bg-op-warning {
+  background-color: #fff4de !important;
+}
+
+.bg-outer-success {
+  border: 1px solid #04c8c8;
+}
+
+.bg-outer-secondary {
+  border: 1px solid #b5b5c3;
+}
+
+.bg-light {
+  --background: #f6f7f9 !important;
+  background-color: #f6f7f9 !important;
+}
+
+.bg-radius {
+  border-radius: 5px;
+}
+
+.bg-blue-active {
+  background: #becce0;
+}
+
+.bg-blue-inactive {
+  background: #f3f6f9;
+}
+
+.no-border {
+  border: none !important;
+}
+.text-w-400 {
+  font-weight: 400 !important;
+}
+
+.text-w-500 {
+  font-weight: 500 !important;
+}
+
+.text-w-600 {
+  font-weight: 600 !important;
+}
+
+.text-w-700 {
+  font-weight: 700 !important;
+}
+
+.text-grey {
+  color: #b5b5c3 !important;
+}
+
+.hr {
+  border-bottom: 1px solid #ccc;
+}
+
+.px-6 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.badge-sm {
+  padding: 5px 10px 5px 10px;
+  font-size: 10px;
+}
+
+.input-lg {
+  height: 45px !important;
+}
+
+.select-outline {
+  border: solid 1.5px #1f4f94;
+  border-radius: 5px;
+}
+
+.select-primary {
+  --placeholder-color: #1f4f94;
+  --placeholder-opacity: 1;
+}
+
+.select-primary::part(text) {
+  color: #1f4f94;
+}
+
+.select-primary::part(icon) {
+  color: #1f4f94;
+  opacity: 1;
+}
+
+.select-outline-muted {
+  border: solid 1.5px #a6a6b7;
+  border-radius: 5px;
+}
+
+.select-muted {
+  --placeholder-color: #a6a6b7;
+  --placeholder-opacity: 1;
+}
+
+.select-muted::part(text) {
+  color: #313132;
+}
+
+.select-muted::part(icon) {
+  color: #313132;
+  opacity: 1;
+}
+
+.form-input {
+  // --background: #373737;
+  // --color: #fff;
+  border: solid 1.5px #a6a6b7;
+  border-radius: 5px;
+
+  --placeholder-color: #ddd;
+  --placeholder-opacity: 0.8;
+  --padding-bottom: 10px;
+  --padding-end: 10px;
+  --padding-start: 10px;
+  --padding-top: 10px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.checkbox-rounded-success {
+  --size: 15px;
+  --background: #fffff;
+  --background-checked: #a2f5c7;
+
+  &::part(container) {
+    border-radius: 12px;
+    border: 2px solid #b5b5c3 !important;
+  }
+
+  &.checkbox-checked::part(container) {
+    border: 2px solid #04c8c8 !important;
+  }
+}
+
+.box-selector {
+  @extend .bg-light, .bg-outer-secondary, .bg-radius;
+  padding: 0.5rem;
+}
+
+.box-selector.active {
+  @extend .bg-op-success, .bg-outer-success, .bg-radius;
+  padding: 0.5rem;
+}
+
+.ml-1 {
+  margin-left: 0.5rem;
+}
+
+.ml-2 {
+  margin-left: 1rem;
+}
+
+.ml-3 {
+  margin-left: 1.5rem;
+}
