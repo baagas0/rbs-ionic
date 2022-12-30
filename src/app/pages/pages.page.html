@@ -1,5 +1,5 @@
 <ion-tabs (ionTabsWillChange)="onTabsWillChange($event)">
-  <ion-tab-bar slot="bottom" id="ion-tab-bar">
+  <ion-tab-bar slot="bottom" id="ion-tab-bar"  *ngIf="showTabs">
     <ion-tab-button tab="dashboard">
       <img
         src="/assets/export-figma/TabsMenu/dashboard{{ tabActive == 'dashboard' ? '-active' : '-inactive' }}.png"

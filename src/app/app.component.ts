@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { Subject } from 'rxjs';
+import { takeUntil, filter } from 'rxjs/operators';
+
 import { AuthService } from './services/auth.service';
 import { RestService } from './services/rest.service';
 
@@ -9,7 +13,12 @@ import { RestService } from './services/rest.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  constructor(private navCtrl: NavController, private auth: AuthService) {}
+
+  constructor(
+    private navCtrl: NavController,
+    private auth: AuthService,
+    
+  ) {}
 
   async ngOnInit() {
     const check = await this.auth.checkAuth();
@@ -20,4 +29,6 @@ export class AppComponent implements OnInit {
       // auth.logout();
     }
   }
+
+  
 }
