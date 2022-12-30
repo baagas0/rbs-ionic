@@ -1,21 +1,7 @@
 <ion-router-outlet></ion-router-outlet>
-<ion-content [fullscreen]="true">
-  <ion-card class="card-header bg-white m-0">
-    <ion-card-content>
-      <div class="d-flex flex-row justify-content-start align-items-center">
-        <ion-icon
-          name="close-outline"
-          style="font-size: 24px; margin-right: 1rem"
-          (click)="go('/pages/delivery')"
-        ></ion-icon>
-        <h5 class="text-black text-w-600">Delivery Detail</h5>
-        <div class="text-black" hidden>
-          <ion-icon name="filter" color="white" class="mx-3"></ion-icon>
-          <ion-icon name="search" color="white"></ion-icon>
-        </div>
-      </div>
-    </ion-card-content>
-  </ion-card>
+<app-top-header [title]="'Detail Delivery'" [type]="'toolbar-white'" [withBackButton]="true"></app-top-header>
+
+<ion-content [fullscreen]="true"> 
 
   <div class="row" style="font-size: 14px">
     <!-- Start Map -->

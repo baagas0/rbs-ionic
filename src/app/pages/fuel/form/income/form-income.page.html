@@ -1,22 +1,7 @@
 <ion-router-outlet></ion-router-outlet>
+<app-top-header [title]="'Tambah Penerimaan Solar'" [type]="'toolbar-blue'"></app-top-header>
+
 <ion-content [fullscreen]="true">
-  <ion-card class="card-header">
-    <ion-card-content>
-      <div class="d-flex flex-row justify-content-start align-items-center">
-        <ion-icon
-          name="return-up-back-outline"
-          class="text-white"
-          style="font-size: 24px; margin-right: 1rem"
-          (click)="go('/pages/fuel')"
-        ></ion-icon>
-        <h5 class="text-white text-w-600">Tambah Penerimaan Solar</h5>
-        <div class="text-black" hidden>
-          <ion-icon name="filter" color="white" class="mx-3"></ion-icon>
-          <ion-icon name="search" color="white"></ion-icon>
-        </div>
-      </div>
-    </ion-card-content>
-  </ion-card>
 
   <div class="container mt-3 mb-3">
     <form [formGroup]="formData" (ngSubmit)="logForm()">

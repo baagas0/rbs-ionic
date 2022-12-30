@@ -9,15 +9,15 @@ const routes: Routes = [
     path: 'usage',
     // component: DetailFuelUsage,
     loadChildren: () =>
-      import('./usage/detail-usage-routing.module').then(
-        (m) => m.DetailFuelUsageRoutingModule
+      import('./usage/detail-usage.module').then(
+        (m) => m.DetailFuelUsageModule
       ),
   },
   {
     path: 'income',
     loadChildren: () =>
-      import('./income/detail-income-routing.module').then(
-        (m) => m.DetailFuelIncomeRoutingModule
+      import('./income/detail-income.module').then(
+        (m) => m.DetailFuelIncomeModule
       ),
   },
 ];

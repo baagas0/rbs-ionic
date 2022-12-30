@@ -16,6 +16,6 @@ import { DetailResourcesDriverRoutingModule } from './detail-driver-routing.modu
     DetailResourcesDriverRoutingModule,
     ReactiveFormsModule,
   ],
-  declarations: [DetailResourcesDriver, Pipe],
+  declarations: [DetailResourcesDriver],
 })
 export class DetailResourcesDriverModule {}

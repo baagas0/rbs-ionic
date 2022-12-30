@@ -9,16 +9,16 @@ const routes: Routes = [
     path: 'equipment',
     // component: DetailFuelUsage,
     loadChildren: () =>
-      import('./equipment/detail-equipment-routing.module').then(
-        (m) => m.DetailFuelUsageRoutingModule
+      import('./equipment/detail-equipment.module').then(
+        (m) => m.DetailFuelUsageModule
       ),
   },
   {
     path: 'driver',
     // component: DetailResourcesDriver,
     loadChildren: () =>
-      import('./driver/detail-driver-routing.module').then(
-        (m) => m.DetailResourcesDriverRoutingModule
+      import('./driver/detail-driver.module').then(
+        (m) => m.DetailResourcesDriverModule
       ),
   },
 ];

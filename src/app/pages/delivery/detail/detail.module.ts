@@ -12,8 +12,8 @@ import { DetailRoutingModule } from './detail-routing.module';
     IonicModule,
     CommonModule,
     FormsModule,
-    CustomComponentModule,
     DetailRoutingModule,
+    CustomComponentModule,
   ],
   declarations: [Detail],
 })

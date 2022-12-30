@@ -16,7 +16,7 @@ const routes: Routes = [
   {
     path: 'detail',
     loadChildren: () =>
-          import('./detail/detail-routing.module').then((m) => m.DetailRoutingModule),
+          import('./detail/detail.module').then((m) => m.DetailModule),
   },
 ];
 

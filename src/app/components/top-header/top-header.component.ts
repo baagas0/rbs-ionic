@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-top-header',
@@ -6,8 +7,11 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./top-header.component.scss'],
 })
 export class TopHeaderComponent implements OnInit {
-  @Input() title;
-  constructor() {}
+  @Input() type: string;
+  @Input() title: string;
+  @Input() withBackButton: boolean = false;
+
+  constructor(public navCtrl: NavController) {}
 
   ngOnInit() {}
 }

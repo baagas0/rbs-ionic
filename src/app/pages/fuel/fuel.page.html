@@ -1,22 +1,26 @@
 <ion-router-outlet></ion-router-outlet>
-<ion-content [fullscreen]="true">
-  <div class="row text-center tab">
-    <div
-      class="col-6 p-3"
-      [class]="tab == 'usage' ? 'active' : ''"
-      (click)="selectTab('usage')"
-    >
-      <small>Usage</small>
+<ion-header>
+  <ion-toolbar class="card-header bg-white">
+    <div class="row text-center tab">
+      <div
+        class="col-6 p-3"
+        [class]="tab == 'usage' ? 'active' : ''"
+        (click)="selectTab('usage')"
+      >
+        <small>Usage</small>
+      </div>
+      <div
+        class="col-6 p-3"
+        [class]="tab == 'income' ? 'active' : ''"
+        (click)="selectTab('income')"
+      >
+        <small>Income</small>
+      </div>
     </div>
-    <div
-      class="col-6 p-3"
-      [class]="tab == 'income' ? 'active' : ''"
-      (click)="selectTab('income')"
-    >
-      <small>Income</small>
-    </div>
-  </div>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content [fullscreen]="true">
   <div class="row mt-3" style="font-size: 14px" *ngIf="tab == 'usage'">
     <!-- Start Production Schedulle -->
     <div
