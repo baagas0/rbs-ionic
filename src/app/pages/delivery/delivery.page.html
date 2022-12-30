@@ -4,6 +4,9 @@
 
 <ion-content [fullscreen]="true">
   <div class="row" style="font-size: 14px">
+    <div class="text-center py-3" *ngIf="data.length == 0">
+      <p>Data Kosong</p>
+    </div>
     <!-- Start Production Schedulle -->
     <div
       *ngFor="let item of data; let i = index"

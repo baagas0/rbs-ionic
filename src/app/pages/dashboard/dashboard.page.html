@@ -12,7 +12,7 @@
           <div
             class="d-flex justify-content-start mt-auto align-items-center h-100"
           >
-            <h2 class="text-w-700 text-white">Halo, {{ profile.name }}</h2>
+            <h2 class="text-w-700 text-white">Halo1, {{ profile.name }}</h2>
           </div>
         </div>
         <div class="col-6">
@@ -48,17 +48,16 @@
     <div class="container row">
       <div class="card bg-">
         <div class="d-flex justify-content-between align-items-center">
-          <ion-select
-            style="height: 40px"
-            placeholder="Pilih Unit Produksi"
-            interface="popover"
-            class="select-corporate"
-            [(ngModel)]="upSelected"
-          >
-            <ion-select-option *ngFor="let up of dataUp" value="{{ up.id }}"
-              >{{ up.name }}</ion-select-option
-            >
-          </ion-select>
+          <form [formGroup]="formData">
+            <app-input-select
+            class="text-primary"
+            [uri]="'production-units'"
+            [outline]="false"
+            [controlName]="'production_unit_id'"
+            [controlNameArray]="'production_unit_id_array'"
+            [placeholder]="'Data Plant'"
+          ></app-input-select>
+          </form>
 
           <p
             id="date-control"

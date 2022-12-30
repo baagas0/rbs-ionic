@@ -3,6 +3,7 @@ import { NavigationEnd, Router } from '@angular/router';
 
 import { Subject } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
+import { BarService } from '../services/bar.service';
 
 @Component({
   selector: 'app-tabs',
@@ -15,7 +16,7 @@ export class TabsPage implements OnInit {
 
   tabActive: string = '';
 
-  constructor(private _router: Router) {}
+  constructor(private _router: Router, private barService: BarService) {}
 
   ngOnInit() {
     this.checkTab();
@@ -27,15 +28,22 @@ export class TabsPage implements OnInit {
         filter((e) => e instanceof NavigationEnd),
         takeUntil(this.closed$)
       )
-      .subscribe((event) => {
+      .subscribe(async (event) => {
         let url = event['url'];
-        console.log(url);
 
+        /** Set Tab Bottom */
         if (url.includes('form')) {
           console.log('hide tab');
           this.showTabs = false;
         }else {
           this.showTabs = true;
+        }
+
+        /** Set Status Bar Color */
+        if (url.includes('form')) {
+          await this.barService.change({ color: '#1f4f94' });
+        } else {
+          await this.barService.change({ color: '#ffffff' });
         }
       });
   }

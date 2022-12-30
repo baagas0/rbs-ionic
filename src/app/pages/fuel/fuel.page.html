@@ -22,6 +22,10 @@
 
 <ion-content [fullscreen]="true">
   <div class="row mt-3" style="font-size: 14px" *ngIf="tab == 'usage'">
+    <div class="text-center py-3" *ngIf="dataUsage.length == 0">
+      <p>Data Kosong</p>
+    </div>
+
     <!-- Start Production Schedulle -->
     <div
       *ngFor="let item of dataUsage; let i = index"
@@ -48,6 +52,9 @@
   </div>
 
   <div class="row mt-3" style="font-size: 14px" *ngIf="tab == 'income'">
+    <div class="text-center py-3" *ngIf="dataIncome.length == 0">
+      <p>Data Kosong</p>
+    </div>
     <!-- Start Production Schedulle -->
     <div
       *ngFor="let item of dataIncome; let i = index"

@@ -24,6 +24,7 @@ import { StorageService } from 'src/app/services/storage.service';
 })
 export class InputSelectComponent {
   @Input() uri: any;
+  @Input() outline: any = true;
   @Input() controlName: any;
   @Input() controlNameArray: any;
   @Input() placeholder: any = 'Pilih Data';
@@ -45,13 +46,17 @@ export class InputSelectComponent {
   ) {}
 
   async ngOnInit() {
-    this.valueFormGroup = this.formGroupDirective.form;
+    if(this.controlName || this.controlNameArray) {
+      this.valueFormGroup = this.formGroupDirective.form;
+    }
 
     if (this.uri == 'production-units') {
       this.dataSelected = await this.storage.get(
         'production_unit_id_array'
       );
-      this.valueFormGroup.controls[this.controlName].setValue(this.dataSelected.id);
+      if(this.controlName) {
+        this.valueFormGroup.controls[this.controlName].setValue(this.dataSelected.id);
+      }
     }
   }
 
@@ -76,7 +81,9 @@ export class InputSelectComponent {
       await this.storage.set('production_unit_id_array', event.value);
     }
 
-    this.valueFormGroup.controls[this.controlName].setValue(event.value.id);
+    if(this.controlName) {
+      this.valueFormGroup.controls[this.controlName].setValue(event.value.id);
+    }
     if(this.controlNameArray) {
       console.log(`this.controlNameArray: ${this.controlNameArray}`);
       this.valueFormGroup.controls[this.controlNameArray].setValue(event.value);

@@ -22,6 +22,10 @@
 
 <ion-content [fullscreen]="true">
   <div class="row mt-3" style="font-size: 14px" *ngIf="tab == 'equipment'">
+    <div class="text-center py-3" *ngIf="dataEquipment?.data?.length == 0">
+      <p>Data Kosong</p>
+    </div>
+
     <!-- Start Production Schedulle -->
     <div
       *ngFor="let item of dataEquipment.data; let i = index"
@@ -60,6 +64,9 @@
   </div>
 
   <div class="row mt-3" style="font-size: 14px" *ngIf="tab == 'driver'">
+    <div class="text-center py-3" *ngIf="dataDriver?.data?.length == 0">
+      <p>Data Kosong</p>
+    </div>
     <!-- Start Production Schedulle -->
     <div
       *ngFor="let item of dataDriver.data; let i = index"

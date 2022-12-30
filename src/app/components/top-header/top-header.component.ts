@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { BarService } from 'src/app/services/bar.service';
 
 @Component({
   selector: 'app-top-header',
@@ -11,7 +12,12 @@ export class TopHeaderComponent implements OnInit {
   @Input() title: string;
   @Input() withBackButton: boolean = false;
 
-  constructor(public navCtrl: NavController) {}
+  constructor(public navCtrl: NavController, private barService: BarService) {}
 
-  ngOnInit() {}
+  async ngOnInit() {
+  }
+  
+  async ngAfterViewInit() {
+    
+  }
 }

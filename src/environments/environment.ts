@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   apiKeyMaps: 'AIzaSyD3EfVyY-k6D_tsSasbMtEqqHjgArFNc00',
-  // baseUrl: 'https://api.rbs.pttas.xyz/v1',
+  // baseUrl: 'https://api.rbs.pttas.xyz/fuel',
   baseUrl: 'http://192.168.88.74:3000',
 };
 

@@ -19,6 +19,7 @@ import {
   ApexYAxis,
   ChartComponent,
 } from 'ng-apexcharts';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { RestService } from 'src/app/services/rest.service';
 
@@ -67,6 +68,8 @@ export class Dashboard {
   dataUp: any = []; // Data Unit Produksi
   upSelected: string = ''; // Unit Produksi yang di pilih
 
+  private sub_production_unit_id: Subscription;
+
   public formData: FormGroup;
   showDatePicker: boolean = false;
   valDate: any = {
@@ -94,6 +97,8 @@ export class Dashboard {
     this.formData = new FormGroup({
       // valDate: new FormControl(),
       searchDocket: new FormControl(),
+      production_unit_id: new FormControl(),
+      production_unit_id_array: new FormControl(),
     });
 
     this.valDate = {
@@ -105,7 +110,15 @@ export class Dashboard {
   async ngOnInit() {
     this.profile = await this.auth.getProfile();
 
-    this.getUP();
+    this.sub_production_unit_id = this.formData.controls['production_unit_id'].valueChanges.subscribe(
+      (value) => {
+        this.getStatistic();
+        this.getIndexEquipment();
+        this.getAverageIndex();
+        this.getTotalDelivery();
+      }
+    );
+
     this.getStatistic();
     this.getIndexEquipment();
     this.getAverageIndex();
@@ -179,6 +192,11 @@ export class Dashboard {
 
   go(to) {
     this.location.go(to);
+  }
+
+  ionViewDidLeave() {
+    console.log('Leave Page');
+    this.sub_production_unit_id.unsubscribe();
   }
 
   statusColor(status_code) {

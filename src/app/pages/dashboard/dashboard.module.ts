@@ -1,7 +1,7 @@
 import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Dashboard } from './dashboard.page';
 import { CustomComponentModule } from '../../components/custom-component.module';
 
@@ -14,6 +14,7 @@ import { CalendarModule } from 'ion2-calendar';
     IonicModule,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     CustomComponentModule,
     DashboardRoutingModule,
     NgApexchartsModule,
