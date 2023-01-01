@@ -6,7 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { NavController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { IonicSelectableComponent } from 'ionic-selectable';
 import { Subscription } from 'rxjs';
 import { RestService } from 'src/app/services/rest.service';
@@ -45,33 +45,37 @@ export class Form {
   constructor(
     @Inject(LOCALE_ID) locale: string,
     private restService: RestService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private alertController: AlertController
   ) {}
 
   async ngOnInit() {
     this.formData = new FormGroup({
-      production_unit_id: new FormControl(),
-      customer_id: new FormControl(),
-      customer_project_id: new FormControl(),
-      product_id: new FormControl(),
-      product: new FormControl(),
-      equipment_id: new FormControl(),
-      driver_id: new FormControl(),
-      date: new FormControl(),
+      production_unit_id: new FormControl('', Validators.required),
+      customer_id: new FormControl('', Validators.required),
+      customer_project_id: new FormControl('', Validators.required),
+      product_id: new FormControl('', Validators.required),
+      product: new FormControl('', Validators.required),
+      equipment_id: new FormControl('', Validators.required),
+      driver_id: new FormControl('', Validators.required),
+      date: new FormControl(''),
+      docket_number: new FormControl('', Validators.required),
+      purchase_order: new FormControl('', Validators.required),
+      invoice_number: new FormControl('', Validators.required),
+      distance: new FormControl('', Validators.required),
+      quantity: new FormControl('', Validators.required),
+      product_price: new FormControl(''),
+      total_net_price: new FormControl('', Validators.required),
+
       date_due: new FormControl(),
-      docket_number: new FormControl(),
-      purchase_order: new FormControl(),
-      invoice_number: new FormControl(),
-      distance: new FormControl(),
-      quantity: new FormControl(),
-      product_price: new FormControl(),
-      total_net_price: new FormControl(),
       vat: new FormControl(),
       vat_amount: new FormControl(),
       start_delivery: new FormControl(),
       end_delivery: new FormControl(),
       description: new FormControl(),
     });
+
+    console.log(this.formData);
 
     this.sub_production_unit_id = this.formData.controls[
       'production_unit_id'
@@ -97,8 +101,6 @@ export class Form {
       this.formData.controls['total_net_price'].setValue(
         this.formData.controls['product_price'].value * value
       );
-
-      console.log(this.formData.value);
     });
   }
 
@@ -108,7 +110,6 @@ export class Form {
     this.sub_customer_project_id.unsubscribe();
     this.sub_product.unsubscribe();
     this.sub_quantity.unsubscribe();
-
   }
 
   getDistance() {
@@ -129,7 +130,19 @@ export class Form {
     }
   }
 
-  logForm() {
+  async logForm() {
+    if (this.formData.status != 'VALID') {
+      const alert = await this.alertController.create({
+        subHeader: 'Error',
+        message: "Form tidak valid",
+        buttons: ['OK'],
+      });
+
+      await alert.present();
+
+      return;
+    }
+
     console.log(this.formData.value);
     let uri = 'create/deliveries';
 
@@ -139,6 +152,16 @@ export class Form {
         const data = resp.data;
 
         console.log(resp);
+
+        const alert = await this.alertController.create({
+          subHeader: 'Berhasil',
+          message: "Data Berhasil Disimpan",
+          buttons: ['OK'],
+        });
+  
+        await alert.present();
+
+        this.formData.reset();
 
         this.navCtrl.navigateForward('/pages/delivery');
         // this.navCtrl.navigateBack()

@@ -8,7 +8,7 @@
       <div class="row" style="font-size: 14px">
         <!-- Start Production Schedulle -->
         <div class="col-12 mb-3">
-          <ion-label position="stacked">Unit Produksi</ion-label>
+          <ion-label position="stacked" class="required">Unit Produksi</ion-label>
           <app-input-select
             [uri]="'production-units'"
             [controlName]="'production_unit_id'"
@@ -18,15 +18,11 @@
 
         <div class="col-12 mb-3 mt-3">
           <ion-label position="stacked">Tanggal Pengisian</ion-label>
-          <ion-input
-            class="form-input"
-            [clearInput]="true"
-            placeholder="12 Desember 2022"
-          ></ion-input>
+          <app-input-date [mode]="'single'" [controlName]="'date'" [disabled]="true"></app-input-date>
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked">Warehouse (Gudang)</ion-label>
+          <ion-label position="stacked" class="required">Warehouse (Gudang)</ion-label>
           <app-input-select
             [uri]="'warehouses'"
             [controlName]="'warehouse_id'"
@@ -35,7 +31,7 @@
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked">Driver</ion-label>
+          <ion-label position="stacked" class="required">Driver</ion-label>
           <app-input-select
             [uri]="'drivers'"
             [controlName]="'driver_id'"
@@ -44,7 +40,7 @@
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked">Kendaraan</ion-label>
+          <ion-label position="stacked" class="required">Kendaraan</ion-label>
           <app-input-select
             [uri]="'equipments'"
             [controlName]="'equipment_id'"
@@ -53,7 +49,7 @@
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked">Lokasi Proyek</ion-label>
+          <ion-label position="stacked" class="required">Lokasi Proyek</ion-label>
           <app-input-select
             [uri]="'customer_projects'"
             [controlName]="'customer_project_id'"
@@ -62,7 +58,7 @@
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked">Total Volume Solar</ion-label>
+          <ion-label position="stacked" class="required">Total Volume Solar</ion-label>
           <ion-input
             formControlName="quantity"
             type="number"
@@ -82,7 +78,7 @@
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked">Flow Meter Akhir</ion-label>
+          <ion-label position="stacked" class="required">Flow Meter Akhir</ion-label>
           <ion-input
             formControlName="flow_meter_end"
             type="number"
@@ -100,8 +96,17 @@
           ></ion-textarea>
         </div>
 
-        <ion-button type="submit">Simpan Data</ion-button>
+        <!-- <ion-button type="submit">Simpan Data</ion-button> -->
       </div>
     </form>
   </div>
 </ion-content>
+<ion-footer style="padding: 10px; background-color: #ffffff !important">
+  <ion-button
+    type="submit"
+    style="width: 100%"
+    (click)="logForm()"
+    [disabled]="formData.status != 'VALID'"
+    >Simpan Data</ion-button
+  >
+</ion-footer>

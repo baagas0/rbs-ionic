@@ -2,6 +2,7 @@ import { DatePipe, Location } from '@angular/common';
 import { Component, Inject, LOCALE_ID, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CalendarComponentOptions } from 'ion2-calendar';
+import * as moment from 'moment';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -22,6 +23,7 @@ import {
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { RestService } from 'src/app/services/rest.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -69,6 +71,7 @@ export class Dashboard {
   upSelected: string = ''; // Unit Produksi yang di pilih
 
   private sub_production_unit_id: Subscription;
+  private sub_date: Subscription;
 
   public formData: FormGroup;
   showDatePicker: boolean = false;
@@ -92,13 +95,15 @@ export class Dashboard {
     private location: Location,
     public restService: RestService,
     private auth: AuthService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private storage: StorageService
   ) {
     this.formData = new FormGroup({
       // valDate: new FormControl(),
       searchDocket: new FormControl(),
       production_unit_id: new FormControl(),
       production_unit_id_array: new FormControl(),
+      date: new FormControl(),
     });
 
     this.valDate = {
@@ -110,12 +115,20 @@ export class Dashboard {
   async ngOnInit() {
     this.profile = await this.auth.getProfile();
 
-    this.sub_production_unit_id = this.formData.controls['production_unit_id'].valueChanges.subscribe(
+    this.sub_production_unit_id = this.formData.controls[
+      'production_unit_id'
+    ].valueChanges.subscribe((value) => {
+      this.getStatistic();
+      this.getIndexEquipment();
+      this.getAverageIndex();
+      this.getTotalDelivery();
+    });
+
+    this.sub_date = this.formData.controls['date'].valueChanges.subscribe(
       (value) => {
-        this.getStatistic();
-        this.getIndexEquipment();
-        this.getAverageIndex();
-        this.getTotalDelivery();
+        console.log('date change');
+        this.ngOnInit();
+        this.ionViewDidEnter();
       }
     );
 
@@ -170,20 +183,19 @@ export class Dashboard {
   getIndexEquipment() {
     let uri = 'dashboard/monitoring/equipment-report/liter-m3-fuel';
     let params = {
-      date: this.getDate()[0],
+      // date: this.getDate()[0],
+      date: moment().format('YYYY-MM-DD'),
     };
+    console.log(params);
     this.restService.getting(uri, params).then((res) => {
       this.dataIndexEquipment = res.data;
       console.log(res);
     });
   }
 
-  dateChange(value) {
-    this.ngOnInit();
-    this.ionViewDidEnter();
-  }
-
   getDate() {
+    // let date = await this.storage.get('date');
+
     return [
       this.datePipe.transform(this.valDate.from, 'yyyy-MM-dd'),
       this.datePipe.transform(this.valDate.to, 'yyyy-MM-dd'),

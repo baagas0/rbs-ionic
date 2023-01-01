@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { TestService } from 'src/app/services/test.service';
 
@@ -24,22 +24,23 @@ export class FormFuelIncome {
     private restService: RestService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private alertController: AlertController
   ) {
     this.formData = this.formBuilder.group({
-      production_unit_id: new FormControl(),
-      vendor_id: new FormControl(),
-      equipment_id: new FormControl(),
-      customer_id: new FormControl(),
-      warehouse_id: new FormControl(),
+      production_unit_id: new FormControl('', Validators.required),
+      vendor_id: new FormControl('', Validators.required),
+      equipment_id: new FormControl('', Validators.required),
+      customer_id: new FormControl(''),
+      warehouse_id: new FormControl('', Validators.required),
 
-      code: new FormControl(),
-      date: new FormControl(),
-      description: new FormControl(),
-      docket_number: new FormControl(),
-      purchase_order: new FormControl(),
-      quantity: new FormControl(),
-      created_by_name: new FormControl(),
+      code: new FormControl(''),
+      date: new FormControl(''),
+      description: new FormControl(''),
+      docket_number: new FormControl('', Validators.required),
+      purchase_order: new FormControl('', Validators.required),
+      quantity: new FormControl('', Validators.required),
+      created_by_name: new FormControl(''),
     });
   }
 
@@ -50,7 +51,20 @@ export class FormFuelIncome {
     // this.formData.controls['valDate'].setValue(new Date());
   }
 
-  logForm() {
+  async logForm() {
+
+    if (this.formData.status != 'VALID') {
+      const alert = await this.alertController.create({
+        subHeader: 'Error',
+        message: "Form tidak valid",
+        buttons: ['OK'],
+      });
+
+      await alert.present();
+
+      return;
+    }
+
     let uri = 'create/fuel-incomes';
 
     this.restService
@@ -59,6 +73,14 @@ export class FormFuelIncome {
         const data = resp.data;
 
         console.log(resp);
+
+        const alert = await this.alertController.create({
+          subHeader: 'Berhasil',
+          message: "Data Berhasil Disimpan",
+          buttons: ['OK'],
+        });
+  
+        await alert.present();
 
         this.navCtrl.navigateBack('/pages/fuel');
         // this.navCtrl.navigateBack()

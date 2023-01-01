@@ -50,29 +50,17 @@
         <div class="d-flex justify-content-between align-items-center">
           <form [formGroup]="formData">
             <app-input-select
-            class="text-primary"
-            [uri]="'production-units'"
-            [outline]="false"
-            [controlName]="'production_unit_id'"
-            [controlNameArray]="'production_unit_id_array'"
-            [placeholder]="'Data Plant'"
-          ></app-input-select>
+              class="text-primary"
+              [uri]="'production-units'"
+              [outline]="false"
+              [controlName]="'production_unit_id'"
+              [controlNameArray]="'production_unit_id_array'"
+              [placeholder]="'Data Plant'"
+            ></app-input-select>
           </form>
-
-          <p
-            id="date-control"
-            expand="block"
-            class="text-center p-1 px-3 mt-3 d-flex align-items-center"
-          >
-            <span style="vertical-align: middle"
-              >{{ valDate.from | date: 'shortDate' }}</span
-            >
-            <ion-icon
-              class="ml-3"
-              color="primary"
-              name="chevron-down"
-            ></ion-icon>
-          </p>
+          <form [formGroup]="formData">
+            <app-input-date-range [type]="'picker'" [controlName]="'date'"></app-input-date-range>
+          </form>
         </div>
       </div>
     </div>
@@ -93,8 +81,7 @@
         <ion-icon class="ml-3" color="primary" name="chevron-down"></ion-icon>
       </p>
     </div>
-    <div class="col-2">
-    </div>
+    <div class="col-2"></div>
 
     <!-- Statistik -->
     <div class="col-12 mt-3">
@@ -106,7 +93,8 @@
             <div>
               <p class="text-sm text-black">Stok Solar</p>
               <h6 class="text-lg text-black text-w-700" style="font-size: 18px">
-                {{ dataStatistic?.fuel_stock ? dataStatistic?.fuel_stock : 0 | number }}
+                {{ dataStatistic?.fuel_stock ? dataStatistic?.fuel_stock : 0 |
+                number }}
                 <small class="text-w-400 text-sm text-muted">Liter</small>
               </h6>
             </div>
@@ -128,7 +116,8 @@
                 class="text-lg text-success text-w-700"
                 style="font-size: 18px"
               >
-                {{ dataStatistic?.fuel_income ? dataStatistic?.fuel_income : 0 | number }}
+                {{ dataStatistic?.fuel_income ? dataStatistic?.fuel_income : 0 |
+                number }}
                 <small class="text-w-400 text-sm text-muted">Liter</small>
               </h4>
             </div>
@@ -142,7 +131,8 @@
                 class="text-lg text-danger text-w-700"
                 style="font-size: 18px"
               >
-                {{ dataStatistic?.fuel_usage ? dataStatistic?.fuel_usage : 0 | number }}
+                {{ dataStatistic?.fuel_usage ? dataStatistic?.fuel_usage : 0 |
+                number }}
                 <small class="text-w-400 text-sm text-muted">Liter</small>
               </h6>
             </div>
@@ -255,27 +245,4 @@
       </table>
     </div>
   </div>
-
-  <ion-modal
-    trigger="date-control"
-    [initialBreakpoint]="0.5"
-    [breakpoints]="[0, 0.25, 0.5, 0.75]"
-    handleBehavior="cycle"
-  >
-    <ng-template>
-      <ion-content class="ion-padding">
-        <div class="ion-margin-top">
-          <ion-calendar
-            class="p-0"
-            [(ngModel)]="valDate"
-            (change)="dateChange($event)"
-            [options]="valDateOptions"
-            [type]="'string'"
-            [format]="'YYYY-MM-DD'"
-          >
-          </ion-calendar>
-        </div>
-      </ion-content>
-    </ng-template>
-  </ion-modal>
 </ion-content>

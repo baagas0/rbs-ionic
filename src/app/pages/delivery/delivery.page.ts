@@ -53,7 +53,7 @@ export class Delivery {
         order: 'created_at',
         sort: 'desc',
         limit: this.dataLimit,
-        offset: this.currentPage,
+        page: this.currentPage,
       })
       .then((res) => {
         let data = this.data.concat(res.data.data);

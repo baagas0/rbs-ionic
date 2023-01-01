@@ -9,6 +9,9 @@ import { InputFileComponent } from './input-file/input-file.component';
 import { TopHeaderComponent } from './top-header/top-header.component';
 import { InputSelectComponent } from './input-select/input-select.component';
 import { IonicSelectableModule } from 'ionic-selectable';
+import { InputDateComponent } from './input-date/input-date.component';
+import { CalendarModule } from 'ion2-calendar';
+import { InputDateRangeComponent } from './input-date-range/input-date-range.component';
 
 @NgModule({
   imports: [
@@ -16,19 +19,27 @@ import { IonicSelectableModule } from 'ionic-selectable';
     FormsModule,
     IonicModule,
     IonicSelectableModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CalendarModule.forRoot({
+      doneLabel: 'Save',
+      closeIcon: true,
+    }),
   ],
   declarations: [
     ExploreContainerComponent,
     InputFileComponent,
     TopHeaderComponent,
     InputSelectComponent,
+    InputDateComponent,
+    InputDateRangeComponent,
   ],
   exports: [
     ExploreContainerComponent,
     InputFileComponent,
     TopHeaderComponent,
     InputSelectComponent,
+    InputDateComponent,
+    InputDateRangeComponent,
   ],
 })
 export class CustomComponentModule {}

@@ -1,10 +1,14 @@
 import { Injectable, OnInit } from '@angular/core';
 
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Axios } from 'axios';
 import { StorageService } from './storage.service';
+import { AuthService } from './auth.service';
+import { catchError, map, tap } from 'rxjs/operators';
+import { AlertController } from '@ionic/angular';
+import * as moment from 'moment';
 // import { environment } from 'src/environments/environment';
 
 export interface ApiResult {
@@ -24,7 +28,12 @@ export class RestService {
     production_unit_id: '',
   };
 
-  constructor(private http: HttpClient, private storage: StorageService) {
+  constructor(
+    private http: HttpClient,
+    private storage: StorageService,
+    private alertController: AlertController,
+    private authService: AuthService
+  ) {
     // console.log('Set Token');
   }
 
@@ -39,10 +48,22 @@ export class RestService {
     const production_unit_id = await this.storage.get('production_unit_id');
     if (production_unit_id) {
       this.paramsOption.production_unit_id = production_unit_id;
-      return Object.assign({}, params, this.paramsOption);
-    } else {
-      return params;
+      params = Object.assign({}, params, this.paramsOption);
     }
+
+    if (params['date[]']) {
+      const date = await this.storage.get('date');
+      console.log("date", date)
+      params['date[]'] = [date.from, date.to || moment().format('YYYY-MM-DD')];
+    }
+    console.log(`params['date[]']`, params['date[]'])
+
+    if (params['custom_date[]']) {
+      params['date[]'] = params['custom_date[]'];
+      delete params['custom_date[]'];
+    }
+
+    return params;
   }
 
   async getting(uri, params) {
@@ -56,16 +77,59 @@ export class RestService {
         headers: this.headerOptions,
         params: params,
       })
-      .toPromise();
+      .toPromise()
+      .catch(async (err) => {
+
+        if(err?.error?.error_message == "Unauthorized") {
+          await this.authService.logout();
+        } else {
+          
+          const alert = await this.alertController.create({
+            // header: 'Alert',
+            subHeader: 'Error',
+            message: err.error.error_message,
+            buttons: ['OK'],
+          });
+  
+          await alert.present();
+
+        }
+
+      });
 
     return data;
   }
 
   post(uri, body, params): Observable<any> {
-    return this.http.post<any>(`${environment.baseUrl}/${uri}`, body, {
-      headers: this.headerOptions,
-      params: params,
-    });
+    let data = this.http
+      .post(`${environment.baseUrl}/${uri}`, body, {
+        headers: this.headerOptions,
+        params: params,
+      })
+      .pipe(
+        tap((data) => console.log('server data:', data)),
+        catchError(this.handleError('getData'))
+      );
+    return data;
+  }
+
+  private handleError(operation: String) {
+    return async (err: any) => {
+      let errMsg = `error in ${operation}() retrieving`;
+
+      console.log(err.error.error_message);
+
+      const alert = await this.alertController.create({
+        // header: 'Alert',
+        subHeader: 'Error',
+        message: err.error.error_message,
+        buttons: ['OK'],
+      });
+
+      await alert.present();
+
+      return Observable.throw(errMsg);
+    };
   }
 
   // async post(uri, body, params) {

@@ -6,30 +6,29 @@
       [class]="tab == 'l/m3' ? 'active' : ''"
       (click)="selectTab('l/m3')"
     >
-      <small>Minimum</small>
+      <small>Index L/M3</small>
     </div>
     <div
       class="col-4 p-3"
       [class]="tab == 'm3/rit' ? 'active' : ''"
       (click)="selectTab('m3/rit')"
     >
-      <small>Average</small>
+      <small>Index M3/Rit</small>
     </div>
     <div
       class="col-4 p-3"
       [class]="tab == 'km/l' ? 'active' : ''"
       (click)="selectTab('km/l')"
     >
-      <small>Maximum</small>
+      <small>Index KM/L</small>
     </div>
   </div>
   <div class="">
     <div class="row h-100" style="background-color: #fafafa">
       <div class="col-12 mt-3">
         <div class="container">
-
           <h6 class="text-lg text-primary text-w-700">
-            Rata Rata Index Pemakaian Hari Ini
+            Rata Rata Index Pemakaian
           </h6>
           <div class="row">
             <div class="col-4">
@@ -37,26 +36,26 @@
                 class="bg-blue-inactive bg-radius d-flex flex-row justify-content-between p-2"
               >
                 <div>
-                  <p class="text-sm text-black">L/Volume</p>
+                  <p class="text-sm text-black">Minimum</p>
                   <h6
                     class="text-lg text-black text-w-700"
                     style="font-size: 18px"
                   >
-                    {{ dataFuelIndex?.summary?.quantity_in | number }} 0,1
+                    {{ dataFuelIndex?.quantity_in || 0 | number }}
                   </h6>
                 </div>
               </div>
             </div>
-  
+
             <div class="col-4">
               <div class="bg-blue-active bg-radius d-flex flex-row p-2">
                 <div>
-                  <p class="text-sm text-black">Volume/Rit</p>
+                  <p class="text-sm text-black">Average</p>
                   <h6
                     class="text-lg text-black text-w-700"
                     style="font-size: 18px"
                   >
-                    {{ dataFuelIndex?.summary?.quantity_in | number }} 0,1
+                    {{ dataFuelIndex?.average_index || 0 | number }}
                   </h6>
                 </div>
               </div>
@@ -64,24 +63,24 @@
             <div class="col-4">
               <div class="bg-blue-inactive bg-radius d-flex flex-row p-2">
                 <div>
-                  <p class="text-sm text-black">KM/Liter</p>
+                  <p class="text-sm text-black">Maximum</p>
                   <h6
                     class="text-lg text-black text-w-700"
                     style="font-size: 18px"
                   >
-                    {{ dataFuelIndex?.summary?.quantity_out | number }} 0,1
+                    {{ dataFuelIndex?.quantity_out || 0 | number }}
                   </h6>
                 </div>
               </div>
             </div>
           </div>
-
         </div>
       </div>
 
       <div class="col-12">
-        <div id="chartProgressMonth">
+        <div id="">
           <apx-chart
+            #chartProgressMonth
             [series]="chartOptions?.series"
             [chart]="chartOptions?.chart"
             [xaxis]="chartOptions?.xaxis"
@@ -90,13 +89,53 @@
             [dataLabels]="chartOptions?.dataLabels"
           ></apx-chart>
         </div>
+
+        <div class="row mx-2">
+          <div class="col-3">
+            <div
+              class="bg-radius-25 text-sm px-2 py-2 text-center"
+              [class]="period == '7_hari' ? 'bg-blue-active' : 'bg-blue-inactive'"
+              (click)="selectPeriod('7_hari')"
+            >
+              7 Hari
+            </div>
+          </div>
+          <div class="col-3">
+            <div
+              class="bg-radius-25 text-sm px-2 py-2 text-center"
+              [class]="period == '1_bulan' ? 'bg-blue-active' : 'bg-blue-inactive'"
+              (click)="selectPeriod('1_bulan')"
+            >
+              1 Bulan
+            </div>
+          </div>
+          <div class="col-3">
+            <div
+              class="bg-radius-25 text-sm px-2 py-2 text-center"
+              [class]="period == '3_bulan' ? 'bg-blue-active' : 'bg-blue-inactive'"
+              (click)="selectPeriod('3_bulan')"
+            >
+              3 Bulan
+            </div>
+          </div>
+          <div class="col-3">
+            <div
+              class="bg-radius-25 text-sm px-2 py-2 text-center"
+              [class]="period == '6_bulan' ? 'bg-blue-active' : 'bg-blue-inactive'"
+              (click)="selectPeriod('6_bulan')"
+            >
+              6 Bulan
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="col-12 mt-3 mb-3">
         <div class="container">
-          <h6 class="text-lg text-primary text-w-700">Index Pemakaian Hari Ini</h6>
+          <h6 class="text-lg text-primary text-w-700">
+            Index Pemakaian Hari Ini
+          </h6>
           <!-- <small>(21 dec)note: data belum hari ini</small> -->
-          
         </div>
 
         <table class="table text-center fuel-index">
@@ -109,30 +148,28 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr *ngFor="let item of dataIndexEquipment.data">
               <td style="text-align: left">
                 <div class="vertical-center">
                   <p class="text-md text-black text-w-600 mt-0 mb-0">
-                    {{ "TM-001" }}
+                    {{ item.equipment_name }}
                   </p>
-                  <span class="text-muted d-block"
-                    >{{ "Truct Mixer" }}</span
-                  >
+                  <span class="text-muted d-block">{{ item.equipment_type_name }}</span>
                 </div>
               </td>
               <td style="vertical-align: middle">
                 <ion-badge class="badge-sm bg-radius bg-op-danger text-danger"
-                  >{{ "10" }}</ion-badge
+                  >{{ item.total_liter }}</ion-badge
                 >
               </td>
               <td style="vertical-align: middle">
                 <ion-badge class="badge-sm bg-radius bg-op-success text-success"
-                  >{{ "11" }}</ion-badge
+                  >{{ item.total_volume }}</ion-badge
                 >
               </td>
               <td style="vertical-align: middle">
                 <ion-badge class="badge-sm bg-radius bg-op-success text-success"
-                  >{{ "12" }}</ion-badge
+                  >{{ item.average_index }}</ion-badge
                 >
               </td>
             </tr>

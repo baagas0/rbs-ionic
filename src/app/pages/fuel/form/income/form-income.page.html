@@ -8,7 +8,7 @@
       <div class="row" style="font-size: 14px">
         <!-- Start Production Schedulle -->
         <div class="col-12 mb-3">
-          <ion-label position="stacked">Unit Produksi</ion-label>
+          <ion-label position="stacked" class="required">Unit Produksi</ion-label>
           <app-input-select
             [uri]="'production-units'"
             [controlName]="'production_unit_id'"
@@ -17,16 +17,12 @@
         </div>
 
         <div class="col-12 mb-3 mt-3">
-          <ion-label position="stacked">Tanggal Pengiriman</ion-label>
-          <ion-input
-            class="form-input"
-            [clearInput]="true"
-            placeholder="12 Desember 2022"
-          ></ion-input>
+          <ion-label position="stacked">Tanggal Penerimaan</ion-label>
+          <app-input-date [mode]="'single'" [controlName]="'date'" [disabled]="true"></app-input-date>
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked">Vendor</ion-label>
+          <ion-label position="stacked" class="required">Vendor</ion-label>
           <app-input-select
             [uri]="'vendor'+'s'"
             [controlName]="'vendor_id'"
@@ -35,7 +31,7 @@
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked">Kendaraan</ion-label>
+          <ion-label position="stacked" class="required">Kendaraan</ion-label>
           <app-input-select
             [uri]="'equipment'+'s'"
             [controlName]="'equipment_id'"
@@ -44,7 +40,7 @@
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked">Warehouse (Gudang)</ion-label>
+          <ion-label position="stacked" class="required">Warehouse (Gudang)</ion-label>
           <app-input-select
             [uri]="'warehouse'+'s'"
             [controlName]="'warehouse_id'"
@@ -53,7 +49,7 @@
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked">Nomor Pengiriman</ion-label>
+          <ion-label position="stacked" class="required">Nomor Pengiriman</ion-label>
           <ion-input
             formControlName="docket_number"
             class="form-input"
@@ -62,7 +58,7 @@
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked">Nomor Pembelian</ion-label>
+          <ion-label position="stacked" class="required">Nomor Pembelian</ion-label>
           <ion-input
             formControlName="purchase_order"
             class="form-input"
@@ -71,7 +67,7 @@
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked">Jumlah Kuantitas</ion-label>
+          <ion-label position="stacked" class="required">Jumlah Kuantitas</ion-label>
           <ion-input
             formControlName="quantity"
             type="number"
@@ -89,8 +85,17 @@
           ></ion-textarea>
         </div>
 
-        <ion-button type="submit">Simpan Data</ion-button>
+        <!-- <ion-button type="submit">Simpan Data</ion-button> -->
       </div>
     </form>
   </div>
 </ion-content>
+<ion-footer style="padding: 10px; background-color: #ffffff !important">
+  <ion-button
+    type="submit"
+    style="width: 100%"
+    (click)="logForm()"
+    [disabled]="formData.status != 'VALID'"
+    >Simpan Data</ion-button
+  >
+</ion-footer>

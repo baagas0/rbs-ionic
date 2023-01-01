@@ -1,5 +1,8 @@
 <ion-router-outlet></ion-router-outlet>
-<app-top-header [title]="'Form Delivery'" [type]="'toolbar-blue'"></app-top-header>
+<app-top-header
+  [title]="'Form Delivery'"
+  [type]="'toolbar-blue'"
+></app-top-header>
 
 <ion-content [fullscreen]="true">
   <div class="container mt-3 mb-3">
@@ -8,7 +11,7 @@
         <!-- Start Production Schedulle -->
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked">Unit Produksi</ion-label>
+          <ion-label position="stacked" class="required">Unit Produksi</ion-label>
           <app-input-select
             [uri]="'production-units'"
             [controlName]="'production_unit_id'"
@@ -17,17 +20,12 @@
         </div>
 
         <div class="col-12 mb-3 mt-3">
-          <ion-label position="stacked">Tanggal Pengiriman</ion-label>
-          <ion-input
-            formControlName="date"
-            class="form-input"
-            [clearInput]="true"
-            placeholder="12 Desember 2022"
-          ></ion-input>
+          <ion-label position="stacked" class="">Tanggal Pengiriman</ion-label>
+          <app-input-date [mode]="'single'" [controlName]="'date'" [disabled]="true"></app-input-date>
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked">Driver</ion-label>
+          <ion-label position="stacked" class="required">Driver</ion-label>
           <app-input-select
             [uri]="'drivers'"
             [controlName]="'driver_id'"
@@ -36,7 +34,7 @@
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked">Kendaraan</ion-label>
+          <ion-label position="stacked" class="required">Kendaraan</ion-label>
           <app-input-select
             [uri]="'equipments'"
             [controlName]="'equipment_id'"
@@ -45,7 +43,7 @@
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked">Pelanggan</ion-label>
+          <ion-label position="stacked" class="required">Pelanggan</ion-label>
           <app-input-select
             [uri]="'customers'"
             [controlName]="'customer_id'"
@@ -54,7 +52,7 @@
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked">Lokasi Proyek</ion-label>
+          <ion-label position="stacked" class="required">Lokasi Proyek</ion-label>
           <app-input-select
             [uri]="'customer-projects?customer_id='+formData.controls['customer_id'].value"
             [controlName]="'customer_project_id'"
@@ -73,7 +71,7 @@
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked">Produk</ion-label>
+          <ion-label position="stacked" class="required">Produk</ion-label>
           <app-input-select
             [uri]="'products'"
             [controlName]="'product_id'"
@@ -83,7 +81,7 @@
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked">Nomor Pengiriman</ion-label>
+          <ion-label position="stacked" class="required">Nomor Pengiriman</ion-label>
           <ion-input
             formControlName="docket_number"
             class="form-input"
@@ -92,7 +90,7 @@
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked">Nomor Pembelian</ion-label>
+          <ion-label position="stacked" class="required">Nomor Pembelian</ion-label>
           <ion-input
             formControlName="purchase_order"
             class="form-input"
@@ -101,7 +99,7 @@
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked">Faktur Pembelian</ion-label>
+          <ion-label position="stacked" class="required">Faktur Pembelian</ion-label>
           <ion-input
             formControlName="invoice_number"
             class="form-input"
@@ -109,8 +107,8 @@
           ></ion-input>
         </div>
 
-        <div class="col-12 mb-3">
-          <ion-label position="stacked">Jumlah Kuantitas</ion-label>
+        <div class="col-12 mb-1">
+          <ion-label position="stacked" class="required">Jumlah Kuantitas</ion-label>
           <ion-input
             formControlName="quantity"
             type="number"
@@ -118,9 +116,16 @@
             placeholder="Ketikkan Jumlah disini..."
           ></ion-input>
         </div>
-
-        <ion-button type="submit">Simpan Data</ion-button>
       </div>
     </form>
   </div>
 </ion-content>
+<ion-footer style="padding: 10px; background-color: #ffffff !important">
+  <ion-button
+    type="submit"
+    style="width: 100%"
+    (click)="logForm()"
+    [disabled]="formData.status != 'VALID'"
+    >Simpan Data</ion-button
+  >
+</ion-footer>

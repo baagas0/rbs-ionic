@@ -25,6 +25,15 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
+ion-footer::before {
+  background-image: none!important;
+}
+
+.required::after {
+  content: '*';
+  color: red;
+}
+
 .card-header {
   background-color: #1f4f94;
   border-top-left-radius: 0px;

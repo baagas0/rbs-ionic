@@ -12,6 +12,7 @@ import {
   ApexTooltip,
   ApexStroke,
 } from 'ng-apexcharts';
+import * as moment from 'moment';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -29,7 +30,13 @@ export type ChartOptions = {
 })
 export class Report {
   tab: string = 'l/m3';
+  period: string = '7_hari';
+  period_date: any = [];
+
+  @ViewChild('chartProgressMonth', { static: true }) chart: ChartComponent;
   chartOptions: Partial<ChartOptions>; // Data chart progress month
+  dataFuelIndex: any = {};
+
   dataIndexEquipment: any = []; // Data Index Equipment
 
   constructor(
@@ -37,31 +44,11 @@ export class Report {
     private restService: RestService
   ) {}
 
-  async ngOnInit() {}
+  async ngOnInit() {
+    this.getIndexEquipment();
+  }
 
   ionViewDidEnter() {
-    this.chartProgressMonth();
-  }
-
-  selectTab(tab) {
-    console.log(tab);
-    this.tab = tab;
-
-    this.chartProgressMonth();
-  }
-
-  getIndexEquipment() {
-    let uri = 'dashboard/monitoring/equipment-report/liter-m3-fuel';
-    let params = {
-      date: '2022-12-21',
-    };
-    this.restService.getting(uri, params).then((res) => {
-      this.dataIndexEquipment = res.data;
-      console.log(res);
-    });
-  }
-
-  chartProgressMonth() {
     let colorSet = [];
     if (this.tab == 'l/m3') {
       colorSet = ['#82AAE3', '#C0DEFF', '#82C3EC'];
@@ -74,19 +61,19 @@ export class Report {
     this.chartOptions = {
       series: [
         {
-          name: 'series1',
+          name: 'minimum',
           color: colorSet[0],
-          data: [31, 40, 28, 51, 42, 109, 100],
+          data: [],
         },
         {
-          name: 'series2',
+          name: 'average',
           color: colorSet[1],
-          data: [11, 32, 45, 32, 34, 52, 41],
+          data: [],
         },
         {
-          name: 'series2',
+          name: 'maximum',
           color: colorSet[2],
-          data: [26, 34, 65, 12, 74, 22, 61],
+          data: [],
         },
       ],
       chart: {
@@ -101,14 +88,116 @@ export class Report {
         curve: 'smooth',
       },
       xaxis: {
-        type: 'numeric',
-        categories: [1, 2, 3, 4, 5, 6, 7],
+        categories: [],
       },
       tooltip: {
         x: {
-          // format: "dd/MM/yy HH:mm"
+          format: 'dd MMM yyyy',
         },
       },
     };
+
+    this.selectPeriod('7_hari');
+  }
+
+  selectTab(tab) {
+    console.log(tab);
+    this.tab = tab;
+
+    this.initChart();
+  }
+
+  selectPeriod(period) {
+    this.period = period;
+
+    let dateTo = moment().format('YYYY-MM-DD');
+    let dateFrom = '';
+    if (this.period == '7_hari') {
+      dateFrom = moment().subtract(7, 'd').format('YYYY-MM-DD');
+    } else if (this.period == '1_bulan') {
+      dateFrom = moment().subtract(1, 'months').format('YYYY-MM-DD');
+    } else if (this.period == '3_bulan') {
+      dateFrom = moment().subtract(3, 'months').format('YYYY-MM-DD');
+    } else if (this.period == '6_bulan') {
+      dateFrom = moment().subtract(6, 'months').format('YYYY-MM-DD');
+    } else {
+      dateFrom = moment().format('YYYY-MM-DD');
+    }
+    console.log(dateFrom);
+
+    this.period_date = [dateFrom, dateTo];
+
+    this.initChart();
+  }
+
+  getIndexEquipment() {
+    let uri = 'dashboard/monitoring/equipment-report/liter-m3-fuel';
+    let params = {
+      date: moment().format('YYYY-MM-DD'),
+    };
+    this.restService.getting(uri, params).then((res) => {
+      this.dataIndexEquipment = res.data;
+      console.log(res.data.data[0]);
+    });
+  }
+
+  initChart() {
+    let uri = '';
+
+    let params = {
+      'custom_date[]': this.period_date,
+    };
+
+    let colorSet = [];
+    if (this.tab == 'l/m3') {
+      colorSet = ['#82AAE3', '#C0DEFF', '#82C3EC'];
+      uri = 'dashboard/monitoring/liter-m3-fuel';
+    } else if (this.tab == 'km/l') {
+      colorSet = ['#ADE792', '#6ECCAF', '#86C8BC'];
+      uri = 'dashboard/monitoring/km-liter-fuel';
+    } else {
+      colorSet = ['#E5BA73', '#FFDCA9', '#C58940'];
+      uri = 'dashboard/monitoring/m3-rit-fuel';
+    }
+
+    this.restService.getting(uri, params).then((res) => {
+      // console.log(res);
+      this.dataFuelIndex = res.data.summary;
+
+      let categories = [];
+      let series = [
+        {
+          name: 'Minimum Index',
+          color: colorSet[0],
+          data: [],
+        },
+        {
+          name: 'Average Index',
+          color: colorSet[1],
+          data: [],
+        },
+        {
+          name: 'Maximum Index',
+          color: colorSet[2],
+          data: [],
+        },
+      ];
+      for (let i = 0; i < res.data.data.length; i++) {
+        let data = res.data.data[i];
+        let date = moment(data.date, 'YYYY-MM-DD').locale('id').format('D MMM');
+
+        categories.push(date);
+        series[0].data.push(data.min || 0);
+        series[1].data.push(data.average || 0);
+        series[2].data.push(data.max || 0);
+      }
+
+      this.chart.updateSeries(series);
+      this.chart.updateOptions({
+        xaxis: {
+          categories: categories,
+        },
+      });
+    });
   }
 }

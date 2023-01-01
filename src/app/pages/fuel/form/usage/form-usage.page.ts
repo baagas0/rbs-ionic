@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { TestService } from 'src/app/services/test.service';
 
@@ -24,24 +24,25 @@ export class FormFuelUsage {
     private restService: RestService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private alertController: AlertController
   ) {}
 
   async ngOnInit() {
     this.formData = this.formBuilder.group({
-      production_unit_id: new FormControl(),
-      code: new FormControl(),
-      date: new FormControl(),
-      warehouse_id: new FormControl(),
-      driver_id: new FormControl(),
-      equipment_id: new FormControl(),
-      customer_id: new FormControl(),
-      customer_project_id: new FormControl(),
-      flow_meter_start: new FormControl(0),
-      flow_meter_end: new FormControl(0),
-      quantity: new FormControl(),
-      description: new FormControl(),
-      created_by_name: new FormControl(),
+      production_unit_id: new FormControl('', Validators.required),
+      code: new FormControl(''),
+      date: new FormControl(''),
+      warehouse_id: new FormControl('', Validators.required),
+      driver_id: new FormControl('', Validators.required),
+      equipment_id: new FormControl('', Validators.required),
+      customer_id: new FormControl(''),
+      customer_project_id: new FormControl('', Validators.required),
+      flow_meter_start: new FormControl(''),
+      flow_meter_end: new FormControl('', Validators.required),
+      quantity: new FormControl('', Validators.required),
+      description: new FormControl(''),
+      created_by_name: new FormControl(''),
     });
 
     this.formData.controls['warehouse_id'].valueChanges.subscribe((value) => {
@@ -86,7 +87,20 @@ export class FormFuelUsage {
       });
   }
 
-  logForm() {
+  async logForm() {
+
+    if (this.formData.status != 'VALID') {
+      const alert = await this.alertController.create({
+        subHeader: 'Error',
+        message: "Form tidak valid",
+        buttons: ['OK'],
+      });
+
+      await alert.present();
+
+      return;
+    }
+
     let uri = 'create/fuel-usages';
 
     this.restService
@@ -95,6 +109,14 @@ export class FormFuelUsage {
         const data = resp.data;
 
         console.log(resp);
+
+        const alert = await this.alertController.create({
+          subHeader: 'Berhasil',
+          message: "Data Berhasil Disimpan",
+          buttons: ['OK'],
+        });
+  
+        await alert.present();
 
         this.navCtrl.navigateBack('/pages/fuel');
         // this.navCtrl.navigateBack()

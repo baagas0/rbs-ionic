@@ -3,6 +3,7 @@ import { NavigationEnd, Router } from '@angular/router';
 
 import { Subject } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
+import { AlertService } from '../services/alert.service';
 import { BarService } from '../services/bar.service';
 
 @Component({
@@ -16,7 +17,7 @@ export class TabsPage implements OnInit {
 
   tabActive: string = '';
 
-  constructor(private _router: Router, private barService: BarService) {}
+  constructor(private _router: Router, private barService: BarService, private alertService: AlertService) {}
 
   ngOnInit() {
     this.checkTab();
