@@ -4,9 +4,10 @@
 
 export const environment = {
   production: false,
-  apiKeyMaps: 'AIzaSyD3EfVyY-k6D_tsSasbMtEqqHjgArFNc00',
+  // apiKeyMaps: 'AIzaSyD3EfVyY-k6D_tsSasbMtEqqHjgArFNc00',
+  apiKeyMaps: 'AIzaSyBXHC8JVOMpLte5kMrEY3e06-Sljd3CAas', // MILIK RND
   // baseUrl: 'https://api.rbs.pttas.xyz/fuel',
-  baseUrl: 'http://192.168.88.74:3000',
+  baseUrl: 'http://192.168.88.89:3000',
 };
 
 /*

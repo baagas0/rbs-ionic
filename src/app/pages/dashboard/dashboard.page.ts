@@ -112,7 +112,8 @@ export class Dashboard {
     };
   }
 
-  async ngOnInit() {
+  // async ngOnInit() {
+  async ionViewDidEnter() {
     this.profile = await this.auth.getProfile();
 
     this.sub_production_unit_id = this.formData.controls[
@@ -127,7 +128,7 @@ export class Dashboard {
     this.sub_date = this.formData.controls['date'].valueChanges.subscribe(
       (value) => {
         console.log('date change');
-        this.ngOnInit();
+        // this.ngOnInit();
         this.ionViewDidEnter();
       }
     );
@@ -138,7 +139,7 @@ export class Dashboard {
     this.getTotalDelivery();
   }
 
-  ionViewDidEnter() {}
+  // ionViewDidEnter() {}
 
   getUP() {
     let uri = `lookup/production-units`;
@@ -209,6 +210,7 @@ export class Dashboard {
   ionViewDidLeave() {
     console.log('Leave Page');
     this.sub_production_unit_id.unsubscribe();
+    this.sub_date.unsubscribe();
   }
 
   statusColor(status_code) {

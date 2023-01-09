@@ -1,5 +1,5 @@
 <ion-router-outlet></ion-router-outlet>
-<app-top-header [title]="'Detail Equipment'" [type]="'toolbar-blue'" [withBackButton]="true"></app-top-header>
+<app-top-header [title]="'Detail Equipment'" [type]="'toolbar-blue'" [withBackButton]="'/pages/resources'"></app-top-header>
 
 
 <ion-content [fullscreen]="true">
@@ -19,7 +19,7 @@
           <p class="text-sm mb-2">{{ detail.equipment_category_id_name }}</p>
           <ion-badge
             class="badge-sm bg-radius mb-3 {{ detail?.active == '1' ? 'bg-op-success text-success' : 'bg-op-danger text-danger' }}"
-            >{{ detail?.active == "1" ? "Available" : "Unavailable"
+            >{{ detail?.active == "1" ? "Available" : "Breakdown"
             }}</ion-badge
           >
 
@@ -35,7 +35,7 @@
               <td>{{ detail.vehicle_number ?? "-" }}</td>
             </tr>
             <tr style="height: 1.5rem">
-              <td>Manufaktu</td>
+              <td>Manufaktur</td>
               <td class="px-3"></td>
               <td>{{ detail.manufacture ?? "-" }}</td>
             </tr>

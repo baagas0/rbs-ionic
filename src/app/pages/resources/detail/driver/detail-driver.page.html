@@ -1,5 +1,5 @@
 <ion-router-outlet></ion-router-outlet>
-<app-top-header [title]="'Detail Driver'" [type]="'toolbar-blue'" [withBackButton]="true"></app-top-header>
+<app-top-header [title]="'Detail Driver'" [type]="'toolbar-blue'" [withBackButton]="'/pages/resources'"></app-top-header>
 
 <ion-content [fullscreen]="true">
 
@@ -21,14 +21,14 @@
 
           <table class="text-sm">
             <tr style="height: 1.5rem">
-              <td>Kode Driver</td>
-              <td class="px-3"></td>
-              <td>{{ detail.code ?? "-" }}</td>
-            </tr>
-            <tr style="height: 1.5rem">
               <td>Contact</td>
               <td class="px-3"></td>
               <td>{{ detail.phone ?? "-" }}</td>
+            </tr>
+            <tr style="height: 1.5rem">
+              <td>Nomor Lisensi</td>
+              <td class="px-3"></td>
+              <td>{{ detail.code ?? "-" }}</td>
             </tr>
             <tr style="height: 1.5rem">
               <td>Masa Aktif</td>

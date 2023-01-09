@@ -9,6 +9,7 @@ import {
 import { AlertController, NavController } from '@ionic/angular';
 import { IonicSelectableComponent } from 'ionic-selectable';
 import { Subscription } from 'rxjs';
+import { GeneralService } from 'src/app/services/general.service';
 import { RestService } from 'src/app/services/rest.service';
 import { TestService } from 'src/app/services/test.service';
 
@@ -46,7 +47,8 @@ export class Form {
     @Inject(LOCALE_ID) locale: string,
     private restService: RestService,
     private navCtrl: NavController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private generalService: GeneralService
   ) {}
 
   async ngOnInit() {
@@ -62,11 +64,12 @@ export class Form {
       docket_number: new FormControl('', Validators.required),
       purchase_order: new FormControl('', Validators.required),
       invoice_number: new FormControl('', Validators.required),
-      distance: new FormControl('', Validators.required),
+      distance: new FormControl('Jarak Pengiriman...', Validators.required),
       quantity: new FormControl('', Validators.required),
       product_price: new FormControl(''),
       total_net_price: new FormControl('', Validators.required),
 
+      total_net_price_rupiah: new FormControl('Rp. 0'),
       date_due: new FormControl(),
       vat: new FormControl(),
       vat_amount: new FormControl(),
@@ -98,8 +101,11 @@ export class Form {
     this.sub_quantity = this.formData.controls[
       'quantity'
     ].valueChanges.subscribe((value) => {
-      this.formData.controls['total_net_price'].setValue(
-        this.formData.controls['product_price'].value * value
+      let price = this.formData.controls['product_price'].value * value;
+      this.formData.controls['total_net_price'].setValue(price);
+
+      this.formData.controls['total_net_price_rupiah'].setValue(
+        this.generalService.rupiah(price.toString(), 'Rp.')
       );
     });
   }
@@ -134,7 +140,7 @@ export class Form {
     if (this.formData.status != 'VALID') {
       const alert = await this.alertController.create({
         subHeader: 'Error',
-        message: "Form tidak valid",
+        message: 'Form tidak valid',
         buttons: ['OK'],
       });
 
@@ -155,10 +161,10 @@ export class Form {
 
         const alert = await this.alertController.create({
           subHeader: 'Berhasil',
-          message: "Data Berhasil Disimpan",
+          message: 'Data Berhasil Disimpan',
           buttons: ['OK'],
         });
-  
+
         await alert.present();
 
         this.formData.reset();

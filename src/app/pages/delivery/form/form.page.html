@@ -2,6 +2,7 @@
 <app-top-header
   [title]="'Form Delivery'"
   [type]="'toolbar-blue'"
+  [withBackButton]="'/pages/delivery'"
 ></app-top-header>
 
 <ion-content [fullscreen]="true">
@@ -11,7 +12,9 @@
         <!-- Start Production Schedulle -->
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked" class="required">Unit Produksi</ion-label>
+          <ion-label position="stacked" class="required"
+            >Unit Produksi</ion-label
+          >
           <app-input-select
             [uri]="'production-units'"
             [controlName]="'production_unit_id'"
@@ -21,20 +24,15 @@
 
         <div class="col-12 mb-3 mt-3">
           <ion-label position="stacked" class="">Tanggal Pengiriman</ion-label>
-          <app-input-date [mode]="'single'" [controlName]="'date'" [disabled]="true"></app-input-date>
+          <app-input-date
+            [mode]="'single'"
+            [controlName]="'date'"
+            [disabled]="true"
+          ></app-input-date>
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked" class="required">Driver</ion-label>
-          <app-input-select
-            [uri]="'drivers'"
-            [controlName]="'driver_id'"
-            [placeholder]="'Data Driver'"
-          ></app-input-select>
-        </div>
-
-        <div class="col-12 mb-3">
-          <ion-label position="stacked" class="required">Kendaraan</ion-label>
+          <ion-label position="stacked" class="required">Equipment</ion-label>
           <app-input-select
             [uri]="'equipments'"
             [controlName]="'equipment_id'"
@@ -52,11 +50,22 @@
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked" class="required">Lokasi Proyek</ion-label>
+          <ion-label position="stacked" class="required"
+            >Lokasi Proyek</ion-label
+          >
           <app-input-select
             [uri]="'customer-projects?customer_id='+formData.controls['customer_id'].value"
             [controlName]="'customer_project_id'"
             [placeholder]="'Data Project'"
+          ></app-input-select>
+        </div>
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked" class="required">Driver</ion-label>
+          <app-input-select
+            [uri]="'drivers'"
+            [controlName]="'driver_id'"
+            [placeholder]="'Data Driver'"
           ></app-input-select>
         </div>
 
@@ -66,7 +75,6 @@
             disabled="true"
             formControlName="distance"
             class="form-input bg-light text-black disabled"
-            placeholder="Jarak Pengiriman..."
           ></ion-input>
         </div>
 
@@ -81,7 +89,9 @@
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked" class="required">Nomor Pengiriman</ion-label>
+          <ion-label position="stacked" class="required"
+            >Nomor Pengiriman</ion-label
+          >
           <ion-input
             formControlName="docket_number"
             class="form-input"
@@ -90,7 +100,9 @@
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked" class="required">Nomor Pembelian</ion-label>
+          <ion-label position="stacked" class="required"
+            >Nomor Pembelian</ion-label
+          >
           <ion-input
             formControlName="purchase_order"
             class="form-input"
@@ -99,7 +111,9 @@
         </div>
 
         <div class="col-12 mb-3">
-          <ion-label position="stacked" class="required">Faktur Pembelian</ion-label>
+          <ion-label position="stacked" class="required"
+            >Faktur Pembelian</ion-label
+          >
           <ion-input
             formControlName="invoice_number"
             class="form-input"
@@ -107,13 +121,26 @@
           ></ion-input>
         </div>
 
-        <div class="col-12 mb-1">
-          <ion-label position="stacked" class="required">Jumlah Kuantitas</ion-label>
+        <div class="col-12 mb-3">
+          <ion-label position="stacked" class="required"
+            >Jumlah Kuantitas</ion-label
+          >
           <ion-input
             formControlName="quantity"
             type="number"
             class="form-input"
             placeholder="Ketikkan Jumlah disini..."
+          ></ion-input>
+        </div>
+
+        <div class="col-12 mb-1">
+          <ion-label position="stacked" class="required">Total Harga</ion-label>
+          <ion-input
+            formControlName="total_net_price_rupiah"
+            type="text"
+            class="form-input bg-light text-black disabled"
+            disabled="true"
+            placeholder="Rp. 0"
           ></ion-input>
         </div>
       </div>

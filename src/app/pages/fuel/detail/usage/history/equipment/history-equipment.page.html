@@ -1,6 +1,12 @@
 <ion-router-outlet></ion-router-outlet>
+<app-top-header
+  [title]="'Fuel Usage History - Equipment'"
+  [type]="'toolbar-blue'"
+  [withBackButton]="'/pages/fuel'"
+></app-top-header>
+
 <ion-content [fullscreen]="true">
-  <ion-card class="card-header">
+  <!-- <ion-card class="card-header">
     <ion-card-content>
       <div class="d-flex flex-row justify-content-start align-items-center">
         <ion-icon
@@ -16,7 +22,7 @@
         </div>
       </div>
     </ion-card-content>
-  </ion-card>
+  </ion-card> -->
 
   <div class="container mt-3 mb-3">
     <div class="row">
@@ -27,17 +33,21 @@
               class="d-flex flex-row justify-content-between align-items-top"
             >
               <div>
-                <p>TM-01</p>
-                <p class="text-w-600">K 000 K</p>
-                <p class="text-muted text-sm">Plant Salatiga</p>
+                <p>{{ equipment.code }}</p>
+                <p class="text-w-600">{{ equipment.vehicle_number }}</p>
+                <p class="text-muted text-sm">
+                  {{ equipment.production_unit_id_name }}
+                </p>
 
                 <ion-badge
-                  class="badge-sm bg-radius bg-op-success text-success mt-3"
+                  class="badge-sm bg-radius mt-3"
+                  [ngClass]="{'bg-op-success text-success': equipment.active, 'bg-op-danger text-danger': !equipment.active}"
                   >Aktif</ion-badge
                 >
 
                 <ion-badge
                   class="badge-sm bg-radius bg-light mx-2 text-secondary mt-3"
+                  hidden
                   >Due: 30 Dec 2022</ion-badge
                 >
               </div>
@@ -51,8 +61,10 @@
           </ion-card-content>
         </ion-card>
       </div>
-      <div class="col-12">
-        <p
+      <div
+        class="col-12 d-flex flex-column align-items-end justify-content-center"
+      >
+        <!-- <p
           id="date-control"
           expand="block"
           class="text-center p-1 px-3 mt-3 d-flex align-items-center"
@@ -66,20 +78,30 @@
             color="primary"
             name="calendar-outline"
           ></ion-icon>
-        </p>
+        </p> -->
+        <form [formGroup]="formData">
+          <app-input-date-range
+            [type]="'picker'"
+            [controlName]="'date'"
+          ></app-input-date-range>
+        </form>
       </div>
     </div>
 
     <div class="row mt-3" style="font-size: 14px">
+      <div class="text-center py-3" *ngIf="lists?.data?.length == 0">
+        <p>Data Kosong</p>
+      </div>
+
       <!-- Start Production Schedulle -->
-      <div class="col-12 bg-light px-6 py-3">
+      <div class="col-12 bg-{{ i%2 == 0 ? 'light' : 'white' }} px-6 py-3" *ngFor="let item of lists.data;let i = index">
         <div class="d-flex justify-content-between align-items-center">
           <div>
-            <p class="text-w-500 mb-0">11 Juli 2022</p>
-            <p class="text-sm mb-0">Driver : Marjuki</p>
+            <p class="text-w-500 mb-0">{{ item.date | date }}</p>
+            <p class="text-sm mb-0">Driver : {{ item.driver_id_name }}</p>
           </div>
           <div>
-            <p class="mb-0 text-w-700 text-primary">89</p>
+            <p class="mb-0 text-w-700 text-primary">{{ item.quantity }}</p>
             <p class="mb-0 text-primary">Liter</p>
           </div>
         </div>
@@ -87,26 +109,3 @@
     </div>
   </div>
 </ion-content>
-
-<ion-modal
-  trigger="date-control"
-  [initialBreakpoint]="0.5"
-  [breakpoints]="[0, 0.25, 0.5, 0.75]"
-  handleBehavior="cycle"
->
-  <ng-template>
-    <ion-content class="ion-padding">
-      <div class="ion-margin-top">
-        <ion-calendar
-          class="p-0"
-          [(ngModel)]="valDate"
-          (change)="dateChange($event)"
-          [options]="valDateOptions"
-          [type]="'string'"
-          [format]="'YYYY-MM-DD'"
-        >
-        </ion-calendar>
-      </div>
-    </ion-content>
-  </ng-template>
-</ion-modal>

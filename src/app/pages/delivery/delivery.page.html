@@ -3,6 +3,10 @@
 
 
 <ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
   <div class="row" style="font-size: 14px">
     <div class="text-center py-3" *ngIf="data.length == 0">
       <p>Data Kosong</p>
@@ -17,7 +21,7 @@
       <div class="d-flex justify-content-between align-items-center">
         <div>
           <p class="text-muted mb-0">
-            {{ item.date | date }} <b>{{ item.equipment_id_name }}</b>
+            {{ item.date | date }} <b>{{ item.equipment_id_code }}</b>
           </p>
           <p class="mb-0 text-w-700">DP - {{ item.docket_number }}</p>
           <p class="text-sm mb-0">

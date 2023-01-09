@@ -21,63 +21,95 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="row mt-3" style="font-size: 14px" *ngIf="tab == 'usage'">
-    <div class="text-center py-3" *ngIf="dataUsage.length == 0">
-      <p>Data Kosong</p>
-    </div>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
-    <!-- Start Production Schedulle -->
-    <div
-      *ngFor="let item of dataUsage; let i = index"
-      class="col-12 bg-{{ i%2 == 0 ? 'light' : 'white' }} px-6 py-3"
-      [routerLink]="['/pages/fuel/detail/usage']"
-      [queryParams]="{id: item.id}"
-    >
-      <div class="d-flex justify-content-between align-items-center">
-        <div>
-          <p class="text-muted mb-0">
-            {{ item.date }} <b>{{ item.equipment_id_code }}</b>
-          </p>
-          <p class="mb-0 text-w-700">{{ item.customer_project_id_name }}</p>
-          <p class="text-sm mb-0">
-            {{ item.customer_project_id_name }}, {{ item.driver_id_name }}
-          </p>
+  <ion-slides
+    #fuelSlider
+    pager="false"
+    [options]="slideOpts"
+    (ionSlideTransitionStart)="onSlide($event)"
+    style="justify-content: center; align-items: baseline; min-height: 100%"
+  >
+    <!-- Tab Usage -->
+    <ion-slide>
+      <div class="row mt-3" style="font-size: 14px; width: 100%">
+        <div class="text-center py-3" *ngIf="dataUsage.length == 0">
+          <p>Data Kosong</p>
         </div>
-        <div style="text-align: right">
-          <p class="mb-0 text-w-700 text-primary">{{ item.quantity }}</p>
-          <p class="mb-0 text-primary">Liter</p>
+
+        <!-- Start Production Schedulle -->
+        <div
+          *ngFor="let item of dataUsage; let i = index"
+          class="col-12 bg-{{ i%2 == 0 ? 'light' : 'white' }} px-6 py-3"
+          (click)="go('/pages/fuel/detail/usage?id='+item?.id)"
+        >
+          <div class="d-flex justify-content-between align-items-center">
+            <div style="text-align: start">
+              <p class="text-muted mb-0">
+                {{ item.date | date }} {{ item.equipment_category_id_name }}
+              </p>
+              <p class="mb-0 text-w-700">
+                {{ item.equipment_id_code }}, {{
+                item.equipment_id_vehicle_number ?
+                item.equipment_id_vehicle_number : '-' }}
+              </p>
+              <p class="text-sm mb-0">
+                {{ item.customer_project_id_name }}, {{ item.driver_id_name }}
+              </p>
+            </div>
+            <div style="text-align: right">
+              <p class="mb-0 text-w-700 text-primary">{{ item.quantity }}</p>
+              <p class="mb-0 text-primary">Liter</p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
+    </ion-slide>
 
-  <div class="row mt-3" style="font-size: 14px" *ngIf="tab == 'income'">
-    <div class="text-center py-3" *ngIf="dataIncome.length == 0">
-      <p>Data Kosong</p>
-    </div>
-    <!-- Start Production Schedulle -->
-    <div
-      *ngFor="let item of dataIncome; let i = index"
-      class="col-12 bg-{{ i%2 == 0 ? 'light' : 'white' }} px-6 py-3"
-      [routerLink]="['/pages/fuel/detail/income']"
-      [queryParams]="{id: item?.id}"
-    >
-      <div class="d-flex justify-content-between align-items-center">
-        <div>
-          <p class="text-muted mb-0">
-            {{ item?.date }} <b>{{ item?.equipment_id_code }}</b>
-          </p>
-          <p class="mb-0 text-w-700">Income - {{ item?.docket_number }}</p>
-          <p class="text-sm mb-0">{{ item?.warehouse_id_name }}</p>
+    <!-- Tab Income -->
+    <ion-slide>
+      <div class="row mt-3" style="font-size: 14px; width: 100%">
+        <div class="text-center py-3" *ngIf="dataIncome.length == 0">
+          <p>Data Kosong</p>
         </div>
-        <div style="text-align: right">
-          <p class="mb-0 text-w-700 text-primary">{{ item?.quantity }}</p>
-          <p class="mb-0 text-primary">Liter</p>
+        <!-- Start Production Schedulle -->
+        <div
+          *ngFor="let item of dataIncome; let i = index"
+          class="col-12 bg-{{ i%2 == 0 ? 'light' : 'white' }} px-6 py-3"
+          (click)="go('/pages/fuel/detail/income?id='+item?.id)"
+        >
+          <div class="d-flex justify-content-between align-items-center">
+            <div style="text-align: start">
+              <p class="text-muted mb-0">
+                {{ item?.date | date }} <b>{{ item?.equipment_id_code }}</b>
+              </p>
+              <p class="mb-0 text-w-700">{{ item?.docket_number }}</p>
+              <p class="text-sm mb-0">
+                {{ item?.vendor_id_name }}, {{ item.equipment_id_vehicle_number
+                }}
+              </p>
+            </div>
+            <div style="text-align: right">
+              <p class="mb-0 text-w-700 text-primary">{{ item?.quantity }}</p>
+              <p class="mb-0 text-primary">Liter</p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
+    </ion-slide>
+  </ion-slides>
 
+  <ion-infinite-scroll (ionInfinite)="getMoreData($event)" style="height: 1px;">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data..."
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <!-- Button Add -->
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-button class="text-white" [routerLink]="[addPage]">
       <ion-icon name="add-circle-outline" class="text-white"></ion-icon> Tambah

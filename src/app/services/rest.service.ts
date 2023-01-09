@@ -9,6 +9,7 @@ import { AuthService } from './auth.service';
 import { catchError, map, tap } from 'rxjs/operators';
 import { AlertController } from '@ionic/angular';
 import * as moment from 'moment';
+import { AlertService } from './alert.service';
 // import { environment } from 'src/environments/environment';
 
 export interface ApiResult {
@@ -32,7 +33,8 @@ export class RestService {
     private http: HttpClient,
     private storage: StorageService,
     private alertController: AlertController,
-    private authService: AuthService
+    private authService: AuthService,
+    private alertService: AlertService
   ) {
     // console.log('Set Token');
   }
@@ -53,10 +55,12 @@ export class RestService {
 
     if (params['date[]']) {
       const date = await this.storage.get('date');
-      console.log("date", date)
-      params['date[]'] = [date.from, date.to || moment().format('YYYY-MM-DD')];
+      console.log('date', date);
+      // params['date[]'] = [date.from, date.to || moment().format('YYYY-MM-DD')];
+      params['date[]'][0] = date.from;
+      params['date[]'][1] = date.to;
     }
-    console.log(`params['date[]']`, params['date[]'])
+    console.log(`params['date[]']`, params['date[]']);
 
     if (params['custom_date[]']) {
       params['date[]'] = params['custom_date[]'];
@@ -79,22 +83,19 @@ export class RestService {
       })
       .toPromise()
       .catch(async (err) => {
-
-        if(err?.error?.error_message == "Unauthorized") {
+        if (err?.error?.error_message == 'Unauthorized') {
+          this.alertService.show('Gagal', 'Unauthorized');
           await this.authService.logout();
         } else {
-          
           const alert = await this.alertController.create({
             // header: 'Alert',
             subHeader: 'Error',
             message: err.error.error_message,
             buttons: ['OK'],
           });
-  
+
           await alert.present();
-
         }
-
       });
 
     return data;

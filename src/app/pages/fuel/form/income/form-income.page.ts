@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, NavController } from '@ionic/angular';
+import { AlertService } from 'src/app/services/alert.service';
 import { RestService } from 'src/app/services/rest.service';
 import { TestService } from 'src/app/services/test.service';
 
@@ -25,7 +26,8 @@ export class FormFuelIncome {
     private formBuilder: FormBuilder,
     private router: Router,
     private navCtrl: NavController,
-    private alertController: AlertController
+    // private alertController: AlertController
+    private alertService: AlertService
   ) {
     this.formData = this.formBuilder.group({
       production_unit_id: new FormControl('', Validators.required),
@@ -52,18 +54,12 @@ export class FormFuelIncome {
   }
 
   async logForm() {
-
     if (this.formData.status != 'VALID') {
-      const alert = await this.alertController.create({
-        subHeader: 'Error',
-        message: "Form tidak valid",
-        buttons: ['OK'],
-      });
-
-      await alert.present();
-
+      this.alertService.show('Error', 'Form tidak valid');
       return;
     }
+
+    const loading = await this.alertService.loading();
 
     let uri = 'create/fuel-incomes';
 
@@ -73,14 +69,8 @@ export class FormFuelIncome {
         const data = resp.data;
 
         console.log(resp);
-
-        const alert = await this.alertController.create({
-          subHeader: 'Berhasil',
-          message: "Data Berhasil Disimpan",
-          buttons: ['OK'],
-        });
-  
-        await alert.present();
+        await loading.dismiss();
+        this.alertService.show('Berhasil', 'Data berhasil disimpan');
 
         this.navCtrl.navigateBack('/pages/fuel');
         // this.navCtrl.navigateBack()

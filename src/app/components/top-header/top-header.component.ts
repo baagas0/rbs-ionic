@@ -10,7 +10,7 @@ import { BarService } from 'src/app/services/bar.service';
 export class TopHeaderComponent implements OnInit {
   @Input() type: string;
   @Input() title: string;
-  @Input() withBackButton: boolean = false;
+  @Input() withBackButton: string;
 
   constructor(public navCtrl: NavController, private barService: BarService) {}
 

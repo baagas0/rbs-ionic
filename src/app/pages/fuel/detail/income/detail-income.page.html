@@ -1,5 +1,5 @@
 <ion-router-outlet></ion-router-outlet>
-<app-top-header [title]="'Detail Fuel Income'" [type]="'toolbar-blue'" [withBackButton]="true"></app-top-header>
+<app-top-header [title]="'Detail Fuel Income'" [type]="'toolbar-blue'" [withBackButton]="'/pages/fuel'"></app-top-header>
 
 <ion-content [fullscreen]="true">
 
@@ -8,18 +8,18 @@
       <div class="col-12 bg-white px-6 py-3">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <div>
-            <p class="text-muted mb-0 text-sm">{{ detail?.date }}</p>
+            <p class="text-muted mb-0 text-sm">{{ detail?.date | date }}</p>
             <p class="mb-0 text-w-700">DP {{ detail?.docket_number }}</p>
             <p class="text-sm mb-0">{{ detail?.driver_id_name }}</p>
           </div>
-          <div>
+          <div style="text-align: end;">
             <p class="mb-0 text-w-700 text-primary">{{ detail?.quantity }}</p>
-            <p class="mb-0 text-primary">Liter</p>
+            <p class="mb-0 text-sm text-primary">Liter</p>
           </div>
         </div>
         <div>
           <p class="text-sm mb-0">
-            {{ detail?.vendor_id_name }}, {{ detail?.equipment_id_name }}
+            {{ detail?.vendor_id_name }}, {{ detail?.equipment_id_vehicle_number }}
           </p>
           <p class="text-sm mb-0">{{ detail?.driver_id_name }}</p>
         </div>

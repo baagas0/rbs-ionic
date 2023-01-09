@@ -7,7 +7,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
+import { AlertService } from 'src/app/services/alert.service';
 import { RestService } from 'src/app/services/rest.service';
 import { TestService } from 'src/app/services/test.service';
 
@@ -19,13 +21,21 @@ import { TestService } from 'src/app/services/test.service';
 export class FormFuelUsage {
   formData: FormGroup;
 
+  sub_warehouse_id: Subscription;
+  sub_flow_meter_start: Subscription;
+  sub_quantity: Subscription;
+
+  flow_meter_start;
+  quantity;
+
   constructor(
     @Inject(LOCALE_ID) locale: string,
     private restService: RestService,
     private formBuilder: FormBuilder,
     private router: Router,
     private navCtrl: NavController,
-    private alertController: AlertController
+    // private alertController: AlertController,
+    private alertService: AlertService
   ) {}
 
   async ngOnInit() {
@@ -34,6 +44,7 @@ export class FormFuelUsage {
       code: new FormControl(''),
       date: new FormControl(''),
       warehouse_id: new FormControl('', Validators.required),
+      warehouse_id_array: new FormControl(''),
       driver_id: new FormControl('', Validators.required),
       equipment_id: new FormControl('', Validators.required),
       customer_id: new FormControl(''),
@@ -45,17 +56,24 @@ export class FormFuelUsage {
       created_by_name: new FormControl(''),
     });
 
-    this.formData.controls['warehouse_id'].valueChanges.subscribe((value) => {
+    this.sub_warehouse_id = this.formData.controls[
+      'warehouse_id'
+    ].valueChanges.subscribe((value) => {
+      // console.log('warehouse',this.formData.controls.warehouse_id_array.value);
       this.getFlowMeter();
     });
 
-    this.formData.controls['flow_meter_start'].valueChanges.subscribe(
-      (value) => {
-        this.calcFlowMeterEnd();
-      }
-    );
+    this.sub_flow_meter_start = this.formData.controls[
+      'flow_meter_start'
+    ].valueChanges.subscribe((value) => {
+      // this.calcFlowMeterEnd();
+    });
 
-    this.formData.controls['quantity'].valueChanges.subscribe((value) => {
+    this.sub_quantity = this.formData.controls[
+      'quantity'
+    ].valueChanges.subscribe((value) => {
+      // console.log(value);
+      console.log('');
       this.calcFlowMeterEnd();
     });
   }
@@ -65,7 +83,16 @@ export class FormFuelUsage {
     let flow_meter_start = this.formData.controls['flow_meter_start'];
     let quantity = this.formData.controls['quantity'];
 
-    if (!flow_meter_start.value) {
+    if (!this.formData.controls['warehouse_id'].value) {
+      this.alertService.show(
+        'Peringatan',
+        'Flow meter akhir tidak dapat diproses karena belum memilih gudang'
+      );
+      // quantity.setValue('');
+      return;
+    }
+
+    if (flow_meter_start.value === '') {
       this.getFlowMeter();
       return;
     }
@@ -88,18 +115,12 @@ export class FormFuelUsage {
   }
 
   async logForm() {
-
     if (this.formData.status != 'VALID') {
-      const alert = await this.alertController.create({
-        subHeader: 'Error',
-        message: "Form tidak valid",
-        buttons: ['OK'],
-      });
-
-      await alert.present();
+      this.alertService.show('Peringatan', 'Form tidak valid');
 
       return;
     }
+    const loading = await this.alertService.loading();
 
     let uri = 'create/fuel-usages';
 
@@ -110,17 +131,20 @@ export class FormFuelUsage {
 
         console.log(resp);
 
-        const alert = await this.alertController.create({
-          subHeader: 'Berhasil',
-          message: "Data Berhasil Disimpan",
-          buttons: ['OK'],
-        });
-  
-        await alert.present();
+        loading.dismiss();
+        this.alertService.show('Berhasil', 'Data Berhasil Disimpan');
 
-        this.navCtrl.navigateBack('/pages/fuel');
+        this.navCtrl.navigateForward('/pages/fuel');
+        // this.navCtrl.navigateBack('/pages/fuel');
         // this.navCtrl.navigateBack()
       });
+  }
+
+  ionViewDidLeave() {
+    console.log('Leave Page');
+    this.sub_warehouse_id.unsubscribe();
+    this.sub_flow_meter_start.unsubscribe();
+    this.sub_quantity.unsubscribe();
   }
 
   go(to) {

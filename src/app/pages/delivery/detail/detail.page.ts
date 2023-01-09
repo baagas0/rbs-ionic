@@ -73,13 +73,13 @@ export class Detail implements OnInit, AfterViewInit {
   }
 
   calculateAndDisplayRoute() {
-    console.log(this.detail);
+
 
     this.directionsService.route(
       {
         origin: `${this.detail.production_unit_id_latitude},${this.detail.production_unit_id_longitude}`,
-        // origin: `-7.181529036064146,110.4247272988701`,
         destination: `${this.detail.customer_project_id_latitude},${this.detail.customer_project_id_longitude}`,
+        // origin: `-7.181529036064146,110.4247272988701`,
         travelMode: 'DRIVING',
       },
       (response, status) => {
@@ -94,6 +94,7 @@ export class Detail implements OnInit, AfterViewInit {
           // this.makeMarker(leg.start_location, icons.start, "title", map);
           // this.makeMarker(leg.end_location, '/assets/export-figma/TabsMenu/Icon/maintenance.png', 'title', this.map);
         } else {
+          console.log(response);
           window.alert('Directions request failed due to ' + status);
         }
       }

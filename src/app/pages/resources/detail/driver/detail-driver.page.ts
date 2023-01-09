@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BarService } from 'src/app/services/bar.service';
 import { RestService } from 'src/app/services/rest.service';
 import { TestService } from 'src/app/services/test.service';
 
@@ -29,7 +30,8 @@ export class DetailResourcesDriver {
     private restService: RestService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private barService: BarService
   ) {
     this.todo = this.formBuilder.group({
       title: ['', Validators.required],
@@ -43,7 +45,9 @@ export class DetailResourcesDriver {
     // });
     // this.formData.controls['valDate'].setValue(new Date());
   }
-  ionViewWillEnter() {
+
+  async ionViewWillEnter() {
+    await this.barService.change({ color: '#1f4f94' });
     this.getData();
   }
 

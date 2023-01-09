@@ -1,8 +1,14 @@
 import { Location } from '@angular/common';
 import { Component, Inject, LOCALE_ID } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CalendarComponentOptions } from 'ion2-calendar';
+import { Subscription } from 'rxjs';
 import { RestService } from 'src/app/services/rest.service';
 import { TestService } from 'src/app/services/test.service';
 
@@ -13,43 +19,59 @@ import { TestService } from 'src/app/services/test.service';
 })
 export class HistoryDriver {
   public formData: FormGroup;
-  showDatePicker: boolean = true;
-  
-  valDate: any = {
-    from: '',
-    to: '',
+  driver: any = {};
+  lists: any = {
+    data: [],
+    record: 0,
   };
-  valDateOptions: CalendarComponentOptions = {
-    pickMode: 'range',
-    from: new Date(2021, 0, 1), // days click enabled from;
-    to: new Date(2024, 8, 15), // days click enabled to;
-  };
+
+  public sub_date: Subscription;
 
   constructor(
     @Inject(LOCALE_ID) locale: string,
     private restService: RestService,
-    private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private activeRoute: ActivatedRoute
   ) {
-    this.valDate = {
-      from: new Date('12/01/2022'),
-      to: new Date('12/31/2022'),
+    this.formData = new FormGroup({
+      date: new FormControl(),
+    });
+  }
+
+  async ionViewDidEnter() {
+    this.sub_date = this.formData.controls.date.valueChanges.subscribe(
+      (value) => {
+        this.getHistory();
+      }
+    );
+    this.getData();
+    this.getHistory();
+  }
+
+  getData() {
+    let uri = `view/drivers/${this.activeRoute.snapshot.queryParams.driver_id}`;
+
+    this.restService.getting(uri, {}).then((res) => {
+      this.driver = res.data;
+    });
+  }
+
+  getHistory() {
+    let uri = `list/fuel-usages`;
+    let params = {
+      driver_id: this.activeRoute.snapshot.queryParams.driver_id,
+      'date[]': [],
+      // driver_id: '83128ff2-df01-4689-b1bb-7819f1323b1a'
     };
+
+    this.restService.getting(uri, params).then((res) => {
+      this.lists = res.data;
+    });
   }
 
-  async ngOnInit() {
-    // this.formData = new FormGroup({
-    //   valDate: new FormControl(),
-    // });
-
-    // this.formData.controls['valDate'].setValue(new Date());
-  }
-
-  logForm() {
-  }
-
-  dateChange(value) {
-    
+  ionViewDidLeave() {
+    console.log('unsubscribe');
+    this.sub_date.unsubscribe();
   }
 
   go(to) {

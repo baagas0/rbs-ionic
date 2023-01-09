@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { BarService } from 'src/app/services/bar.service';
 import { RestService } from 'src/app/services/rest.service';
 import { TestService } from 'src/app/services/test.service';
 
@@ -24,12 +25,17 @@ export class DetailFuelIncome {
     private restService: RestService,
     private router: Router,
     private activeRoute: ActivatedRoute,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private barService: BarService
   ) {
   }
 
   async ngOnInit() {
     this.getData();
+  }
+
+  async ionViewWillEnter() {
+    await this.barService.change({ color: '#1f4f94' });
   }
 
   getData() {

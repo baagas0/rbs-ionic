@@ -15,12 +15,15 @@
     <div>
       <ion-card-content>
         <div class="d-flex flex-row justify-content-start align-items-center">
-          <ion-icon
+          <!-- <ion-icon
             name="return-up-back-outline"
             class="text-white"
             style="font-size: 24px; margin-right: 1rem"
             (click)="this.navCtrl.back()"
-          ></ion-icon>
+          ></ion-icon> -->
+          <ion-back-button class="custom-back-button" [defaultHref]="withBackButton" *ngIf="withBackButton" icon="return-up-back-outline">
+          </ion-back-button>
+          
           <h5 class="text-white text-w-600">{{ title }}</h5>
           <div class="text-black" hidden>
             <ion-icon name="filter" color="white" class="mx-3"></ion-icon>

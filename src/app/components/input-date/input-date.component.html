@@ -1,8 +1,9 @@
 <div>
 
   <ion-input
-    [id]="modalID"
+    [id]="modalID+(disabled==true ? '-disabled' : '')"
     class="form-input"
+    [ngClass]="{'bg-light text-black disabled': disabled}"
     placeholder="Pilih tanggal"
     [disabled]="disabled"
     [value]="(valDate | date: 'longDate')"

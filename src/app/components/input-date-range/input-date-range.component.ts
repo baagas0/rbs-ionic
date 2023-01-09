@@ -25,6 +25,9 @@ import { StorageService } from 'src/app/services/storage.service';
   styleUrls: ['./input-date-range.component.scss'],
 })
 export class InputDateRangeComponent {
+  static id: any = 0;
+  public modalID: any = '';
+
   @Input() type: string = 'picker';
   @Input() controlName: any;
 
@@ -47,32 +50,39 @@ export class InputDateRangeComponent {
   ) {}
 
   async dateChange(event) {
-    console.log(event);
+    console.log('event', event);
     if (this.type == 'picker') {
       await this.storage.set('date', event);
     }
 
-    if(this.controlName) {
+    if (this.controlName) {
       this.valueFormGroup?.controls[this.controlName]?.setValue(event.value);
     }
   }
 
   async ngOnInit() {
-    if(this.controlName) {
+    InputDateRangeComponent.id = ++InputDateRangeComponent.id;
+    this.modalID = `modal-date-range-control-${InputDateRangeComponent.id}`;
+
+    if (this.controlName) {
       this.valueFormGroup = this.formGroupDirective.form;
     }
 
     if (this.type == 'picker') {
       let date = await this.storage.get('date');
       console.log('date', date);
-      if(date == null) {
+      if (date == null) {
         this.valDate = {
-          from: moment().format('YYYY-MM-DD'),
-          to: moment().format('YYYY-MM-DD'),
+          from: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+          to: moment().add(1, 'days').format('YYYY-MM-DD'),
         };
         this.valueFormGroup?.controls[this.controlName]?.setValue(this.valDate);
         await this.storage.set('date', this.valDate);
-      }else {
+      } else {
+        if (moment(date.to) <= moment()) {
+          date.to = moment().add(1, 'days').format('YYYY-MM-DD');
+          this.dateChange(date);
+        }
         this.valDate = date;
       }
     }

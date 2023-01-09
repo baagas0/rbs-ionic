@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { IonModal, NavController } from '@ionic/angular';
+import { IonModal, LoadingController, NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { RestService } from 'src/app/services/rest.service';
 import { StorageService } from 'src/app/services/storage.service';
@@ -20,7 +20,8 @@ export class LoginPage implements OnInit {
     private rest: RestService,
     public navCtrl: NavController,
     public auth: AuthService,
-    public storage: StorageService
+    public storage: StorageService,
+    private loadingCtrl: LoadingController
   ) {}
 
   async ngOnInit() {
@@ -37,17 +38,29 @@ export class LoginPage implements OnInit {
     }
   }
 
-  onSubmit() {
-    this.rest
-      .post('login', this.loginForm.value, {})
-      .subscribe(async (resp) => {
+  async onSubmit() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Loading...',
+      // duration: 3000,
+      spinner: 'circles',
+    });
+
+    loading.present();
+    this.rest.post('login', this.loginForm.value, {}).subscribe(
+      async (resp) => {
         const data = resp.data;
 
         // Set auth
         await this.auth.setAuth(data);
 
+        loading.dismiss();
         this.navCtrl.navigateRoot('/pages/dashboard');
-      });
+      },
+      async (err) => {
+        // console.log(err)
+        loading.dismiss();
+      }
+    );
   }
 
   cancel() {

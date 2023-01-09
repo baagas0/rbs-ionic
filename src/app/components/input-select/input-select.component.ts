@@ -31,7 +31,7 @@ export class InputSelectComponent {
 
   valueFormGroup?: FormGroup;
 
-  dataLimit: number = 20;                               
+  dataLimit: number = 20;
   dataSelected: any;
 
   datas: any = []; // Data Lookup
@@ -46,18 +46,20 @@ export class InputSelectComponent {
   ) {}
 
   async ngOnInit() {
-    if(this.controlName || this.controlNameArray) {
+    if (this.controlName || this.controlNameArray) {
       this.valueFormGroup = this.formGroupDirective.form;
     }
 
     if (this.uri == 'production-units') {
-      this.dataSelected = await this.storage.get(
-        'production_unit_id_array'
-      );
-      if(this.controlName) {
-        this.valueFormGroup.controls[this.controlName].setValue(this.dataSelected.id);
+      this.dataSelected = await this.storage.get('production_unit_id_array');
+      if (this.controlName) {
+        this.valueFormGroup.controls[this.controlName].setValue(
+          this.dataSelected.id
+        );
       }
     }
+    console.log(`URI: ${this.uri}`)
+    this.getData();
   }
 
   async getData() {
@@ -70,8 +72,6 @@ export class InputSelectComponent {
       .then(async (res) => {
         this.datas = res.data.data;
         this.countData = res.data.record;
-
-        
       });
   }
 
@@ -81,10 +81,10 @@ export class InputSelectComponent {
       await this.storage.set('production_unit_id_array', event.value);
     }
 
-    if(this.controlName) {
+    if (this.controlName) {
       this.valueFormGroup.controls[this.controlName].setValue(event.value.id);
     }
-    if(this.controlNameArray) {
+    if (this.controlNameArray) {
       console.log(`this.controlNameArray: ${this.controlNameArray}`);
       this.valueFormGroup.controls[this.controlNameArray].setValue(event.value);
       console.log(this.valueFormGroup.value);
@@ -95,7 +95,7 @@ export class InputSelectComponent {
     component: IonicSelectableComponent;
     text: string;
   }) {
-    if ((this.currentPage * this.dataLimit) >= this.countData) {
+    if (this.currentPage * this.dataLimit >= this.countData) {
       event.component.disableInfiniteScroll();
       return;
     }

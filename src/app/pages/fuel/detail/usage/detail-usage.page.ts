@@ -7,6 +7,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
+import { BarService } from 'src/app/services/bar.service';
 import { RestService } from 'src/app/services/rest.service';
 import { TestService } from 'src/app/services/test.service';
 
@@ -29,12 +31,18 @@ export class DetailFuelUsage {
     private restService: RestService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private navCtrl: NavController,
+    private barService: BarService
   ) {
     this.todo = this.formBuilder.group({
       title: ['', Validators.required],
       description: [''],
     });
+  }
+
+  async ionViewWillEnter() {
+    await this.barService.change({ color: '#1f4f94' });
   }
 
   async ngOnInit() {
@@ -55,6 +63,6 @@ export class DetailFuelUsage {
   }
 
   go(to) {
-    this.router.navigate([to]);
+    this.navCtrl.navigateForward(to);
   }
 }
