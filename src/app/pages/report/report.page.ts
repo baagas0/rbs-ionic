@@ -184,7 +184,7 @@ export class Report {
       ];
       for (let i = 0; i < res.data.data.length; i++) {
         let data = res.data.data[i];
-        let date = moment(data.date, 'YYYY-MM-DD').locale('id').format('D MMM');
+        let date = moment(data.date, 'YYYY-MM-DD').locale('id').format('D MMM YYYY');
 
         categories.push(date);
         series[0].data.push(data.min || 0);
@@ -194,6 +194,10 @@ export class Report {
 
       this.chart.updateSeries(series);
       this.chart.updateOptions({
+        chart: {
+          // width: '100%',
+          width: res.data.data.length * 75,
+        },
         xaxis: {
           categories: categories,
         },

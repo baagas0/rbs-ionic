@@ -137,6 +137,8 @@ export class FormFuelUsage {
         this.navCtrl.navigateForward('/pages/fuel');
         // this.navCtrl.navigateBack('/pages/fuel');
         // this.navCtrl.navigateBack()
+      }, async (err) => {
+        await loading.dismiss();
       });
   }
 

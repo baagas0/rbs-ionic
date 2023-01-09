@@ -41,7 +41,7 @@
                     class="text-lg text-black text-w-700"
                     style="font-size: 18px"
                   >
-                    {{ dataFuelIndex?.quantity_in || 0 | number }}
+                    {{ dataFuelIndex?.min_index || 0 | number }}
                   </h6>
                 </div>
               </div>
@@ -68,7 +68,7 @@
                     class="text-lg text-black text-w-700"
                     style="font-size: 18px"
                   >
-                    {{ dataFuelIndex?.quantity_out || 0 | number }}
+                    {{ dataFuelIndex?.max_index || 0 | number }}
                   </h6>
                 </div>
               </div>
@@ -78,7 +78,7 @@
       </div>
 
       <div class="col-12">
-        <div id="">
+        <div id="" style="overflow: auto;">
           <apx-chart
             #chartProgressMonth
             [series]="chartOptions?.series"

@@ -129,7 +129,11 @@ export class Dashboard {
       (value) => {
         console.log('date change');
         // this.ngOnInit();
-        this.ionViewDidEnter();
+        // this.ionViewDidEnter();
+        this.getStatistic();
+        this.getIndexEquipment();
+        this.getAverageIndex();
+        this.getTotalDelivery();
       }
     );
 
