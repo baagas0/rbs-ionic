@@ -129,10 +129,14 @@ export class FormFuelUsage {
       .subscribe(async (resp) => {
         const data = resp.data;
 
-        console.log(resp);
+        console.log(data);
 
         loading.dismiss();
         this.alertService.show('Berhasil', 'Data Berhasil Disimpan');
+        await this.alertService.show(
+          'Debug',
+          `Rincian data pengiriman untuk pengisian ini => jarak: ${data.distance} KM,volume: ${data.volume},rit: ${data.rit},average: ${data.average}`
+        );
 
         this.navCtrl.navigateForward('/pages/fuel');
         // this.navCtrl.navigateBack('/pages/fuel');

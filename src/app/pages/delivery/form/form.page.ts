@@ -9,6 +9,7 @@ import {
 import { AlertController, NavController } from '@ionic/angular';
 import { IonicSelectableComponent } from 'ionic-selectable';
 import { Subscription } from 'rxjs';
+import { AlertService } from 'src/app/services/alert.service';
 import { GeneralService } from 'src/app/services/general.service';
 import { RestService } from 'src/app/services/rest.service';
 import { TestService } from 'src/app/services/test.service';
@@ -47,7 +48,8 @@ export class Form {
     @Inject(LOCALE_ID) locale: string,
     private restService: RestService,
     private navCtrl: NavController,
-    private alertController: AlertController,
+    // private alertController: AlertController,
+    private alertService: AlertService,
     private generalService: GeneralService
   ) {}
 
@@ -138,13 +140,15 @@ export class Form {
 
   async logForm() {
     if (this.formData.status != 'VALID') {
-      const alert = await this.alertController.create({
-        subHeader: 'Error',
-        message: 'Form tidak valid',
-        buttons: ['OK'],
-      });
+      // const alert = await this.alertController.create({
+      //   subHeader: 'Error',
+      //   message: 'Form tidak valid',
+      //   buttons: ['OK'],
+      // });
 
-      await alert.present();
+      // await alert.present();
+
+      await this.alertService.show('Error', 'Form tidak valid');
 
       return;
     }
@@ -159,13 +163,7 @@ export class Form {
 
         console.log(resp);
 
-        const alert = await this.alertController.create({
-          subHeader: 'Berhasil',
-          message: 'Data Berhasil Disimpan',
-          buttons: ['OK'],
-        });
-
-        await alert.present();
+        await this.alertService.show('Berhasil', 'Data berhasil disimpan');
 
         this.formData.reset();
 
