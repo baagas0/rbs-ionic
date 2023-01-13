@@ -27,6 +27,18 @@ export class InputDateComponent {
   static id: any = 0;
   public modalID: any = '';
   @Input() mode: string = 'range';
+  @Input() set defaultDate(defaultDate) {
+
+    if (defaultDate) {
+      this.valDate = defaultDate;
+    } else {
+      this.valDate = new Date();
+    }
+
+    if (!defaultDate || !defaultDate.valueChanges) {
+      return;
+    }
+  }
   @Input() controlName: any;
   @Input() controlNameArray: any;
   @Input() disabled: any = false;
@@ -63,7 +75,12 @@ export class InputDateComponent {
         to: new Date(),
       };
     } else {
-      this.valDate = new Date();
+      if (this.defaultDate) {
+        this.valDate = this.defaultDate;
+      } else {
+        console.log('sini')
+        this.valDate = new Date();
+      }
     }
 
     if (this.controlName || this.controlNameArray) {

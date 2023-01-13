@@ -51,9 +51,9 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'driver',
+        path: 'profile-user',
         loadChildren: () =>
-          import('./driver/driver.module').then((m) => m.DriverModule),
+          import('./profile-user/profile-user.module').then((m) => m.ProfileUserModule),
       },
       {
         path: '',

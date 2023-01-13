@@ -94,9 +94,8 @@ export class Form {
     });
     this.sub_product = this.formData.controls['product'].valueChanges.subscribe(
       (value) => {
-        this.formData.controls['product_price'].setValue(
-          this.formData.controls['product'].value['price']
-        );
+        console.log(value);
+        this.formData.controls['product_price'].setValue(value?.price);
       }
     );
 

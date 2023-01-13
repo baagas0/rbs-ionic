@@ -1,42 +1,57 @@
 <ion-tabs (ionTabsWillChange)="onTabsWillChange($event)">
-  <ion-tab-bar slot="bottom" id="ion-tab-bar"  *ngIf="showTabs">
+  <ion-tab-bar slot="bottom" id="ion-tab-bar" *ngIf="showTabs">
     <ion-tab-button tab="dashboard">
-      <img
-        src="/assets/export-figma/TabsMenu/dashboard{{ tabActive == 'dashboard' ? '-active' : '-inactive' }}.png"
-        alt=""
-      />
+      <div class="wrapper-tab-icon">
+        <img
+          class="tab-icon"
+          src="/assets/export-figma/TabsMenu/dashboard{{ tabActive == 'dashboard' ? '-active' : '-inactive' }}.png"
+          alt=""
+        />
+      </div>
       <ion-label class="text-w-500">Beranda</ion-label>
     </ion-tab-button>
 
     <ion-tab-button tab="report">
-      <img
-        src="/assets/export-figma/TabsMenu/group{{ tabActive == 'report' ? '-active' : '-inactive' }}.png"
-        alt=""
-      />
+      <div class="wrapper-tab-icon">
+        <img
+          class="tab-icon"
+          src="/assets/export-figma/TabsMenu/group{{ tabActive == 'report' ? '-active' : '-inactive' }}.png"
+          alt=""
+        />
+      </div>
       <ion-label class="text-w-500">Report</ion-label>
     </ion-tab-button>
 
     <ion-tab-button tab="delivery">
-      <img
-        src="/assets/export-figma/TabsMenu/delivery{{ tabActive == 'delivery' ? '-active' : '-inactive' }}.png"
-        alt=""
-      />
+      <div class="wrapper-tab-icon">
+        <img
+          class="tab-icon"
+          src="/assets/export-figma/TabsMenu/delivery{{ tabActive == 'delivery' ? '-active' : '-inactive' }}.png"
+          alt=""
+        />
+      </div>
       <ion-label class="text-w-500">Delivery</ion-label>
     </ion-tab-button>
 
     <ion-tab-button tab="fuel">
-      <img
-        src="/assets/export-figma/TabsMenu/gas-station-fill{{ tabActive == 'fuel' ? '-active' : '-inactive' }}.png"
-        alt=""
-      />
+      <div class="wrapper-tab-icon">
+        <img
+          class="tab-icon"
+          src="/assets/export-figma/TabsMenu/gas-station-fill{{ tabActive == 'fuel' ? '-active' : '-inactive' }}.png"
+          alt=""
+        />
+      </div>
       <ion-label class="text-w-500">Fuel</ion-label>
     </ion-tab-button>
 
     <ion-tab-button tab="resources">
-      <img
-        src="/assets/export-figma/TabsMenu/hotel-fill{{ tabActive == 'resources' ? '-active' : '-inactive' }}.png"
-        alt=""
-      />
+      <div class="wrapper-tab-icon">
+        <img
+          class="tab-icon"
+          src="/assets/export-figma/TabsMenu/hotel-fill{{ tabActive == 'resources' ? '-active' : '-inactive' }}.png"
+          alt=""
+        />
+      </div>
       <ion-label class="text-w-500">Resources</ion-label>
     </ion-tab-button>
   </ion-tab-bar>

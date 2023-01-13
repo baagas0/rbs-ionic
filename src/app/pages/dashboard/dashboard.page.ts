@@ -115,6 +115,8 @@ export class Dashboard {
   // async ngOnInit() {
   async ionViewDidEnter() {
     this.profile = await this.auth.getProfile();
+    console.log('profile')
+    console.log(this.profile)
 
     this.sub_production_unit_id = this.formData.controls[
       'production_unit_id'

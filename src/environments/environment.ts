@@ -5,9 +5,10 @@
 export const environment = {
   production: false,
   // apiKeyMaps: 'AIzaSyD3EfVyY-k6D_tsSasbMtEqqHjgArFNc00',
-  apiKeyMaps: 'AIzaSyBXHC8JVOMpLte5kMrEY3e06-Sljd3CAas', // MILIK RND
-  // baseUrl: 'https://api.rbs.pttas.xyz/fuel',
-  baseUrl: 'http://192.168.88.75:3000',
+  // apiKeyMaps: 'AIzaSyBXHC8JVOMpLte5kMrEY3e06-Sljd3CAas', // MILIK RND
+  apiKeyMaps: 'AIzaSyCl24_lOu9-hCTfTVZIojj-yhKn-zeVJ2o', // MILIK FUEL MANAGEMENT
+  baseUrl: 'https://api.rbs.pttas.xyz/fuel',
+  // baseUrl: 'http://192.168.88.75:3000',
 };
 
 /*

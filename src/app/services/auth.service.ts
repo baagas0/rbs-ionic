@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Observable, Subject } from 'rxjs';
+import { RestService } from './rest.service';
 import { StorageService } from './storage.service';
 
 @Injectable({
@@ -12,7 +13,8 @@ export class AuthService {
 
   constructor(
     private storage: StorageService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    // private restService: RestService
   ) {}
 
   async checkAuth() {
@@ -29,6 +31,7 @@ export class AuthService {
     /** Save ke storage */
     data.profile.photo =
       // 'https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-512.png';
+      await this.storage.set('user-id', data.profile.id);
       await this.storage.set('profile', data.profile);
       await this.storage.set('corporate', data.corporate);
       await this.storage.set('production_unit', data.token);
@@ -56,6 +59,6 @@ export class AuthService {
     await this.storage.remove('token');
     await this.storage.remove('permissions');
 
-    this.navCtrl.navigateRoot('/auth/login');
+    await this.navCtrl.navigateRoot('/auth/login');
   }
 }

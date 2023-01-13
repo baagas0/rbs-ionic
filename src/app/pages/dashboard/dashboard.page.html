@@ -12,16 +12,16 @@
           <div
             class="d-flex justify-content-start mt-auto align-items-center h-100"
           >
-            <h2 class="text-w-700 text-white">Halo1, {{ profile.name }}</h2>
+            <h2 class="text-w-700 text-white">Halo, {{ profile.name }}</h2>
           </div>
         </div>
         <div class="col-6">
-          <a routerLink="/pages/driver">
+          <a routerLink="/pages/profile-user">
             <img
-              [src]="profile?.photo"
-              onError="this.src='../../../assets/icon/user-yellow.svg'"
+              [src]="profile?.photo_preview"
+              onError="this.src='../../../assets/export-figma/profile-pic.png'"
               class="rounded-circle img-thumbnail img-avatar"
-              alt="Raeesh"
+              [alt]="profile.name"
             />
           </a>
         </div>
@@ -92,11 +92,13 @@
           >
             <div>
               <p class="text-sm text-black">Stok Solar</p>
-              <h6 class="text-lg text-black text-w-700" style="font-size: 18px">
+              <h6 class="text-lg text-black text-w-700 mb-0" style="font-size: 18px">
                 {{ dataStatistic?.fuel_stock ? dataStatistic?.fuel_stock : 0 |
                 number }}
-                <small class="text-w-400 text-sm text-muted">Liter</small>
+                <small class="text-w-400 text-sm text-muted mb-0">Liter</small>
               </h6>
+              <small class="text-w-400 text-sm text-muted">Dari {{ dataStatistic?.fuel_stock_warehouse_count ? dataStatistic?.fuel_stock_warehouse_count : 0 |
+                number }} Gudang</small>
             </div>
             <div class="bg-light bg-radius" style="margin-right: 5px">
               <img

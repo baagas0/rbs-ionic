@@ -1,0 +1,188 @@
+<ion-router-outlet></ion-router-outlet>
+<app-top-header
+  [title]="'Update Profile'"
+  [type]="'toolbar-white'"
+  [withBackButton]="'/pages/profile-user'"
+></app-top-header>
+
+<ion-content [fullscreen]="true">
+  <div class="container mt-3 mb-3">
+    <form [formGroup]="formData" (ngSubmit)="logForm()">
+      <div class="row" style="font-size: 14px">
+        <!-- Start Production Schedulle -->
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked" class="required"
+            >Foto Profile</ion-label
+          >
+          <input
+            type="file"
+            id="file-image"
+            class="form-input py-2 px-2 w-100"
+            (change)="imageUpload($event)"
+          />
+
+          <div
+            class="d-flex flex-row justify-content-start align-items-start mt-2"
+            *ngIf="images?.src"
+          >
+            <div>
+              <img
+                [src]="images?.src"
+                alt=""
+                style="width: auto; height: 50px"
+              />
+            </div>
+            <div class="pl-2" *ngIf="images?.name && images?.size">
+              <p class="text-sm mb-0">{{ images?.name }}</p>
+              <p class="text-sm mb-0">{{ images?.size?.toFixed(2) }} KB</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked" class="required">Nama</ion-label>
+          <ion-input
+            formControlName="name"
+            class="form-input"
+            placeholder="Ketikkan Nama disini..."
+          ></ion-input>
+        </div>
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked" class="required">No. Telp</ion-label>
+          <ion-input
+            formControlName="phone"
+            class="form-input"
+            placeholder="Ketikkan No. Telp disini..."
+          ></ion-input>
+        </div>
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked" class="required">Username</ion-label>
+          <ion-input
+            formControlName="username"
+            class="form-input"
+            placeholder="Ketikkan Username disini..."
+          ></ion-input>
+        </div>
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked" class="required">Email</ion-label>
+          <ion-input
+            formControlName="email"
+            class="form-input"
+            placeholder="Ketikkan Email disini..."
+          ></ion-input>
+        </div>
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked" class="">Kata Sandi</ion-label>
+          <ion-input
+            formControlName="password"
+            class="form-input"
+            placeholder="Ketikkan kata sandi disini..."
+          ></ion-input>
+          <p class="text-sm text-muted mb-0">Ubah untuk mengganti</p>
+        </div>
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked" class="">Jenis Kelamin</ion-label>
+          <app-input-select
+            [controlName]="'gender'"
+            [defaultCaption]="gender"
+            [defaultItem]="[{id:'L', name: 'Laki Laki'}, {id:'P', name: 'Perempuan'}]"
+            [placeholder]="'Pilih Jenis Kelamin'"
+          ></app-input-select>
+        </div>
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked" class="">Tempat Lahir</ion-label>
+          <app-input-select
+            [uri]="'cities'"
+            [controlName]="'birth_place_id'"
+            [defaultCaption]="birth_place_id"
+            [placeholder]="'Pilih Tempat Lahir'"
+          ></app-input-select>
+        </div>
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked" class="">Tanggal Lahir</ion-label>
+          <app-input-date
+            [mode]="'single'"
+            [controlName]="'birth_date'"
+            [defaultDate]="birth_date"
+            [disabled]="false"
+          ></app-input-date>
+        </div>
+
+        <div class="col-12 mb-3" hidden>
+          <ion-label position="stacked" class="required">religion_id</ion-label>
+          <ion-input
+            formControlName="religion_id"
+            class="form-input"
+            placeholder="Ketikkan Nama disini..."
+          ></ion-input>
+        </div>
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked">Provinsi</ion-label>
+          <app-input-select
+            [uri]="'provinces'"
+            [controlName]="'province_id'"
+            [defaultCaption]="province_id"
+            [placeholder]="'Pilih Provinsi'"
+          ></app-input-select>
+        </div>
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked">Kota</ion-label>
+          <app-input-select
+            [uri]="'cities?province_id='+formData.controls.province_id.value"
+            [controlName]="'city_id'"
+            [defaultCaption]="city_id"
+            [placeholder]="'Pilih Kota'"
+          ></app-input-select>
+        </div>
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked">Kecamatan</ion-label>
+          <app-input-select
+            [uri]="'districts?city_id='+formData.controls.city_id.value"
+            [controlName]="'district_id'"
+            [defaultCaption]="district_id"
+            [placeholder]="'Pilih Kecamatan'"
+          ></app-input-select>
+        </div>
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked">Kelurahan</ion-label>
+          <app-input-select
+            [uri]="'sub_districts?district_id='+formData.controls.district_id.value"
+            [controlName]="'sub_district_id'"
+            [defaultCaption]="sub_district_id"
+            [placeholder]="'Pilih Kelurahan'"
+          ></app-input-select>
+        </div>
+
+        <div class="col-12 mb-3">
+          <ion-label position="stacked" class="">Alamat</ion-label>
+          <ion-textarea
+            formControlName="address"
+            class="form-input"
+            placeholder="Ketikkan Alamat disini..."
+          ></ion-textarea>
+        </div>
+      </div>
+    </form>
+  </div>
+</ion-content>
+<ion-footer style="padding: 10px; background-color: #ffffff !important">
+  <ion-button
+    type="submit"
+    style="width: 100%"
+    (click)="logForm()"
+    [disabled]="formData.status != 'VALID'"
+    >Simpan Data</ion-button
+  >
+</ion-footer>

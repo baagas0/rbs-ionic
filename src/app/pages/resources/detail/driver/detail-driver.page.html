@@ -33,7 +33,7 @@
             <tr style="height: 1.5rem">
               <td>Masa Aktif</td>
               <td class="px-3"></td>
-              <td>{{ detail.licence_expired ?? "-" }}</td>
+              <td>{{ (detail.licence_expired | date) ?? "-" }}</td>
             </tr>
           </table>
         </div>

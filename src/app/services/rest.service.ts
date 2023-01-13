@@ -114,6 +114,32 @@ export class RestService {
     return data;
   }
 
+  patch(uri, body, params): Observable<any> {
+    let data = this.http
+      .patch(`${environment.baseUrl}/${uri}`, body, {
+        headers: this.headerOptions,
+        params: params,
+      })
+      .pipe(
+        tap((data) => console.log('server data:', data)),
+        catchError(this.handleError('getData'))
+      );
+    return data;
+  }
+
+  uploadFile(file):Observable<any> {
+    // Create form data
+    const formData = new FormData(); // Store form name as "file" with file data
+    formData.append('file', file, file.name);
+
+    let data = this.http
+      .post(`${environment.baseUrl}/upload/file`, formData, {
+        headers: this.headerOptions,
+      });
+
+    return data;
+  }
+
   private handleError(operation: String) {
     return async (err: any) => {
       let errMsg = `error in ${operation}() retrieving`;

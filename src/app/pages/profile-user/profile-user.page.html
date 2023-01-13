@@ -1,0 +1,131 @@
+<ion-router-outlet></ion-router-outlet>
+<app-top-header
+  [title]="'Profile Saya'"
+  [type]="'toolbar-white'"
+  [withBackButton]="'/pages/dashboard'"
+></app-top-header>
+<ion-content [fullscreen]="true">
+  <div class="row px-4 py-3" style="font-size: 14px">
+    <div class="col-12 pb-3">
+      <div class="d-flex flex-row justify-content-start">
+        <div>
+          <img
+            [src]="profile.photo ? profile.photo_preview : '../../../assets/export-figma/profile-pic.png'"
+            alt=""
+            style="height: 100px; width: 100px"
+          />
+        </div>
+        <div class="">
+          <div style="padding-left: 1rem">
+            <p class="text-primary text-w-700 mb-2" (click)="navCtrl.navigateForward('/pages/profile-user/update')">{{ profile.name }}<ion-icon class="pl-1" src="../../../assets/export-figma/icon-pencil.svg"></ion-icon></p>
+            <p class="text-muted text-sm mb-0">{{ profile.role_name }}</p>
+            <p class="text-muted text-sm mb-0">{{ profile.production_unit_id_name }}</p>
+            <p class="text-muted text-sm mb-0">{{ profile.corporate_id_name }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 pb-3">
+      <div class="hr-3"></div>
+    </div>
+    <div class="col-12 pb-3">
+      <h6 class="text-muted mt-0 mb-0">Informasi Akses</h6>
+    </div>
+    <div class="col-12 pb-3">
+      <table class="pl-2">
+        <tr>
+          <td class="pb-2">Role</td>
+          <td class="px-2"></td>
+          <td>
+            <div
+              class="badge-sm bg-radius bg-light text-black"
+              style="width: fit-content"
+            >
+              {{ profile.role_name }}
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="pb-2">Level Akses</td>
+          <td class="px-2"></td>
+          <td>
+            <p class="mb-0 text-black text-w-600">Unit Produksi: {{ profile.production_unit_id_name }}</p>
+          </td>
+        </tr>
+        <tr>
+          <td class="pb-2">Akses</td>
+          <td class="px-2"></td>
+          <td>
+            <p class="mb-0 text-black text-w-600">{{ profile.module }} Akses</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="col-12 pb-3">
+      <div class="hr-3"></div>
+    </div>
+    <div class="col-12 pb-3">
+      <h6 class="text-muted mt-0 mb-0">Informasi User</h6>
+    </div>
+    <div class="col-12 pb-3">
+      <table class="pl-2">
+        <tr>
+          <td class="pb-2">Nama</td>
+          <td class="px-2"></td>
+          <td>
+            <p class="mb-0 text-black">{{ profile.name }}</p>
+          </td>
+        </tr>
+        <tr>
+          <td class="pb-2">Perusahaan</td>
+          <td class="px-2"></td>
+          <td>
+            <p class="mb-0 text-black">{{ profile.corporate_id_name }}</p>
+          </td>
+        </tr>
+        <tr>
+          <td class="pb-2">Email</td>
+          <td class="px-2"></td>
+          <td>
+            <div
+              class="badge-sm bg-radius bg-light text-black"
+              style="width: fit-content"
+            >
+              {{ profile.email }}
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="pb-2">No. Telp</td>
+          <td class="px-2"></td>
+          <td>
+            <p class="mb-0 text-black">{{ profile.phone }}</p>
+          </td>
+        </tr>
+        <tr>
+          <td class="pb-2" style="vertical-align: top">Alamat</td>
+          <td class="px-2"></td>
+          <td>
+            <p class="mb-0 text-black">
+              {{ profile.address || '-' }}
+            </p>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="col-12 pb-3">
+      <div class="hr-3"></div>
+    </div>
+    <div class="col-12 pb-3">
+      <ion-button
+        class="float-right logout-button"
+        (click)="logout()"
+      >
+        <ion-icon src="../../../assets/export-figma/icon-logout.svg"></ion-icon>
+        <ion-label class="text-danger" style="padding-left: 0.5rem">
+          Keluar
+        </ion-label>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

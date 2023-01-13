@@ -124,26 +124,27 @@ export class FormFuelUsage {
 
     let uri = 'create/fuel-usages';
 
-    this.restService
-      .post(uri, this.formData.value, {})
-      .subscribe(async (resp) => {
+    this.restService.post(uri, this.formData.value, {}).subscribe(
+      async (resp) => {
         const data = resp.data;
 
         console.log(data);
 
-        loading.dismiss();
-        this.alertService.show('Berhasil', 'Data Berhasil Disimpan');
+        this.navCtrl.navigateBack('/pages/fuel');
+        await this.alertService.show('Berhasil', 'Data Berhasil Disimpan');
         await this.alertService.show(
           'Debug',
           `Rincian data pengiriman untuk pengisian ini => jarak: ${data.distance} KM,volume: ${data.volume},rit: ${data.rit},average: ${data.average}`
         );
+        await loading.dismiss();
 
-        this.navCtrl.navigateForward('/pages/fuel');
         // this.navCtrl.navigateBack('/pages/fuel');
         // this.navCtrl.navigateBack()
-      }, async (err) => {
+      },
+      async (err) => {
         await loading.dismiss();
-      });
+      }
+    );
   }
 
   ionViewDidLeave() {

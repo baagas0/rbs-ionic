@@ -69,10 +69,10 @@ export class FormFuelIncome {
         const data = resp.data;
 
         console.log(resp);
-        await loading.dismiss();
-        this.alertService.show('Berhasil', 'Data berhasil disimpan');
-
+        
         this.navCtrl.navigateBack('/pages/fuel');
+        await this.alertService.show('Berhasil', 'Data berhasil disimpan');
+        await loading.dismiss();
         // this.navCtrl.navigateBack()
       });
   }

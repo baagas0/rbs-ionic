@@ -14,6 +14,7 @@ import {
   FormGroupDirective,
 } from '@angular/forms';
 import { IonicSelectableComponent } from 'ionic-selectable';
+import { Subscription } from 'rxjs';
 import { RestService } from 'src/app/services/rest.service';
 import { StorageService } from 'src/app/services/storage.service';
 
@@ -28,8 +29,30 @@ export class InputSelectComponent {
   @Input() controlName: any;
   @Input() controlNameArray: any;
   @Input() placeholder: any = 'Pilih Data';
+  @Input() set defaultCaption(defaultCaption) {
+    
+    if(defaultCaption != '' && defaultCaption != null) {
+
+      this.dataSelected = {
+        name: defaultCaption,
+      };
+    }
+    
+    if (!defaultCaption || !defaultCaption.valueChanges) {
+      return;
+    }
+  }
+  @Input() set defaultItem(defaultItem) {
+    this.datas = defaultItem;
+
+    if (!defaultItem || !defaultItem.valueChanges) {
+      return;
+    }
+  }
 
   valueFormGroup?: FormGroup;
+
+  subFormValue: Subscription;
 
   dataLimit: number = 20;
   dataSelected: any;
@@ -52,17 +75,31 @@ export class InputSelectComponent {
 
     if (this.uri == 'production-units') {
       this.dataSelected = await this.storage.get('production_unit_id_array');
-      if (this.controlName) {
+      if (this.controlName && this.dataSelected?.id) {
         this.valueFormGroup.controls[this.controlName].setValue(
           this.dataSelected.id
         );
+
+        if (this.controlNameArray) {
+          this.valueFormGroup.controls[this.controlNameArray].setValue(
+            this.dataSelected
+          );
+        }
       }
     }
-    console.log(`URI: ${this.uri}`)
-    this.getData();
+
+    if (this.defaultItem) {
+      this.datas = this.defaultItem;
+    } else {
+      this.getData();
+    }
   }
 
   async getData() {
+    if (!this.uri || this.uri == '') {
+      return;
+    }
+
     await this.restService
       .getting(`lookup/${this.uri}`, {
         order: 'created_at',
@@ -72,6 +109,9 @@ export class InputSelectComponent {
       .then(async (res) => {
         this.datas = res.data.data;
         this.countData = res.data.record;
+
+        // console.log('select');
+        // console.log(this.valueFormGroup.controls[this.controlName].value);
       });
   }
 
@@ -95,6 +135,10 @@ export class InputSelectComponent {
     component: IonicSelectableComponent;
     text: string;
   }) {
+    if (!this.uri || this.uri == '') {
+      return;
+    }
+
     if (this.currentPage * this.dataLimit >= this.countData) {
       event.component.disableInfiniteScroll();
       return;

@@ -5,6 +5,7 @@ import { NavController, Platform } from '@ionic/angular';
 import { Subject, Subscriber, Subscription } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
 import { AlertService } from '../services/alert.service';
+import { AuthService } from '../services/auth.service';
 import { BarService } from '../services/bar.service';
 
 @Component({
@@ -27,7 +28,8 @@ export class TabsPage implements OnInit {
     private barService: BarService,
     private alertService: AlertService,
     private platform: Platform,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -71,6 +73,17 @@ export class TabsPage implements OnInit {
         takeUntil(this.closed$)
       )
       .subscribe(async (event) => {
+        /**
+         * START
+         * Handle AUTH
+         *
+         */
+        let auth = await this.authService.checkAuth();
+        console.log(`Auth: ${auth}`);
+        if (!auth) {
+          await this.navCtrl.navigateRoot('/auth/login');
+        }
+
         let url = event['url'];
         this.urlActive = url;
 
@@ -81,10 +94,14 @@ export class TabsPage implements OnInit {
 
         /** Set Tab Bottom */
         // if (url.includes('form')) {
+        console.log(url);
         if (url.split('/').length == 3) {
           console.log('hide tab');
           this.showTabs = true;
         } else {
+          this.showTabs = false;
+        }
+        if (url.includes('profile-user')) {
           this.showTabs = false;
         }
 
